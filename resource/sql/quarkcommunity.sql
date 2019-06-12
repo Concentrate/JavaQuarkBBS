@@ -13,20 +13,27 @@ File Encoding         : 65001
 Date: 2017-09-07 14:34:10
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+CREATE DATABASE IF NOT EXISTS quarkCommunity
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci;
+USE quarkCommunity;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for quark_adminuser
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_adminuser`;
 CREATE TABLE `quark_adminuser` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `enable` int(11) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `id`       INT(11)      NOT NULL AUTO_INCREMENT,
+  `enable`   INT(11)      NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_4erqa44qkwwkl539xouso7v4c` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 51
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_adminuser
@@ -69,13 +76,15 @@ INSERT INTO `quark_adminuser` VALUES ('50', '1', '0db82a65c8f98f62e9670ba35ab7a1
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_adminuser_role`;
 CREATE TABLE `quark_adminuser_role` (
-  `adminuser_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`adminuser_id`,`role_id`),
+  `adminuser_id` INT(11) NOT NULL,
+  `role_id`      INT(11) NOT NULL,
+  PRIMARY KEY (`adminuser_id`, `role_id`),
   KEY `FK26lllx1jn0c1k8f8oj2qt4io1` (`role_id`),
   CONSTRAINT `FK26lllx1jn0c1k8f8oj2qt4io1` FOREIGN KEY (`role_id`) REFERENCES `quark_role` (`id`),
   CONSTRAINT `FKatv5o94k3fooskwr53rvqfven` FOREIGN KEY (`adminuser_id`) REFERENCES `quark_adminuser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_adminuser_role
@@ -87,16 +96,18 @@ INSERT INTO `quark_adminuser_role` VALUES ('3', '1');
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_collect`;
 CREATE TABLE `quark_collect` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `init_time` datetime DEFAULT NULL,
-  `posts_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id`        INT(11) NOT NULL AUTO_INCREMENT,
+  `init_time` DATETIME         DEFAULT NULL,
+  `posts_id`  INT(11) NOT NULL,
+  `user_id`   INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK5a8rh83fve6ug3utggpy8wdvi` (`posts_id`),
   KEY `FKg4gtyqabrsuwr5y35lxvjy515` (`user_id`),
   CONSTRAINT `FK5a8rh83fve6ug3utggpy8wdvi` FOREIGN KEY (`posts_id`) REFERENCES `quark_posts` (`id`),
   CONSTRAINT `FKg4gtyqabrsuwr5y35lxvjy515` FOREIGN KEY (`user_id`) REFERENCES `quark_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_collect
@@ -107,13 +118,16 @@ CREATE TABLE `quark_collect` (
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_label`;
 CREATE TABLE `quark_label` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `details` varchar(255) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `posts_count` int(11) DEFAULT NULL,
+  `id`          INT(11)      NOT NULL AUTO_INCREMENT,
+  `details`     VARCHAR(255)          DEFAULT NULL,
+  `name`        VARCHAR(255) NOT NULL,
+  `posts_count` INT(11)               DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_6vml4ba2itmaor84892v92b1f` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 10
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_label
@@ -132,12 +146,12 @@ INSERT INTO `quark_label` VALUES ('9', '关于Android的话题', 'Android', '2')
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_notification`;
 CREATE TABLE `quark_notification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `is_read` bit(1) DEFAULT NULL,
-  `fromuser_id` int(11) NOT NULL,
-  `posts_id` int(11) NOT NULL,
-  `touser_id` int(11) NOT NULL,
-  `init_time` datetime NOT NULL,
+  `id`          INT(11)  NOT NULL AUTO_INCREMENT,
+  `is_read`     BIT(1)            DEFAULT NULL,
+  `fromuser_id` INT(11)  NOT NULL,
+  `posts_id`    INT(11)  NOT NULL,
+  `touser_id`   INT(11)  NOT NULL,
+  `init_time`   DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKac4wjs0b3992ohkf61jy4ilmj` (`fromuser_id`),
   KEY `FKilg05a7ki3vkv7lfjnn57pdw2` (`posts_id`),
@@ -145,7 +159,10 @@ CREATE TABLE `quark_notification` (
   CONSTRAINT `FKac4wjs0b3992ohkf61jy4ilmj` FOREIGN KEY (`fromuser_id`) REFERENCES `quark_user` (`id`),
   CONSTRAINT `FKilg05a7ki3vkv7lfjnn57pdw2` FOREIGN KEY (`posts_id`) REFERENCES `quark_posts` (`id`),
   CONSTRAINT `FKquscxmtiqggsch7w833ywubux` FOREIGN KEY (`touser_id`) REFERENCES `quark_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 23
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_notification
@@ -158,14 +175,17 @@ INSERT INTO `quark_notification` VALUES ('22', '', '71', '4', '2', '2017-09-07 
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_permission`;
 CREATE TABLE `quark_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `perurl` varchar(255) DEFAULT NULL,
-  `sort` int(11) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
-  `parentid` int(11) NOT NULL,
+  `id`       INT(11) NOT NULL AUTO_INCREMENT,
+  `name`     VARCHAR(255)     DEFAULT NULL,
+  `perurl`   VARCHAR(255)     DEFAULT NULL,
+  `sort`     INT(11)          DEFAULT NULL,
+  `type`     INT(11)          DEFAULT NULL,
+  `parentid` INT(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 29
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_permission
@@ -201,30 +221,37 @@ INSERT INTO `quark_permission` VALUES ('28', '修改标签', '/labels/update', '
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_posts`;
 CREATE TABLE `quark_posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` text,
-  `good` bit(1) NOT NULL,
-  `init_time` datetime NOT NULL,
-  `label_id` int(11) DEFAULT NULL,
-  `reply_count` int(11) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
-  `top` bit(1) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id`          INT(11)      NOT NULL AUTO_INCREMENT,
+  `content`     TEXT,
+  `good`        BIT(1)       NOT NULL,
+  `init_time`   DATETIME     NOT NULL,
+  `label_id`    INT(11)               DEFAULT NULL,
+  `reply_count` INT(11)               DEFAULT NULL,
+  `title`       VARCHAR(255) NOT NULL,
+  `top`         BIT(1)       NOT NULL,
+  `user_id`     INT(11)      NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_46eh0lt2x9ftqcv9tjs8meqj8` (`title`),
   KEY `FK41ebsa5jpn18egdtjo6uiaugn` (`user_id`),
   KEY `FKnxd3qh1m3c0o6tc3ojfa8fm6o` (`label_id`),
   CONSTRAINT `FK41ebsa5jpn18egdtjo6uiaugn` FOREIGN KEY (`user_id`) REFERENCES `quark_user` (`id`),
   CONSTRAINT `FKnxd3qh1m3c0o6tc3ojfa8fm6o` FOREIGN KEY (`label_id`) REFERENCES `quark_label` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 214
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_posts
 -- ----------------------------
 INSERT INTO `quark_posts` VALUES ('1', 'hahaha hello world Java', '\0', '2017-08-26 15:33:39', '1', '32', 'Hello World', '\0', '2');
 INSERT INTO `quark_posts` VALUES ('2', 'hahaha hello world Java', '\0', '2017-08-26 15:46:53', '1', '0', 'Hello World Scala', '\0', '2');
-INSERT INTO `quark_posts` VALUES ('3', '<p>测试发布内容<img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"></p>', '\0', '2017-08-27 15:13:44', '1', '0', '测试发布', '\0', '2');
-INSERT INTO `quark_posts` VALUES ('4', '<img src=\"http://127.0.0.1/images/upload/2017-08-27/59111ed9-e43b-4391-9444-e5a2c2e6b85d.jpeg\" alt=\"null\">', '', '2017-08-27 15:49:42', '3', '22', '推荐连续剧《请回答1988》', '', '2');
+INSERT INTO `quark_posts` VALUES ('3',
+                                  '<p>测试发布内容<img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"><img src=\"http://localhost:8082/layui/images/face/39.gif\" alt=\"[鼓掌]\"></p>',
+                                  '\0', '2017-08-27 15:13:44', '1', '0', '测试发布', '\0', '2');
+INSERT INTO `quark_posts` VALUES
+  ('4', '<img src=\"http://127.0.0.1/images/upload/2017-08-27/59111ed9-e43b-4391-9444-e5a2c2e6b85d.jpeg\" alt=\"null\">', '', '2017-08-27 15:49:42',
+   '3', '22', '推荐连续剧《请回答1988》', '', '2');
 INSERT INTO `quark_posts` VALUES ('105', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁1', '\0', '2017-08-28 16:03:00', '1', '1', '测试帖子1', '\0', '2');
 INSERT INTO `quark_posts` VALUES ('106', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁2', '\0', '2017-08-28 16:03:00', '1', '0', '测试帖子2', '\0', '2');
 INSERT INTO `quark_posts` VALUES ('107', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁3', '\0', '2017-08-28 16:03:00', '1', '0', '测试帖子3', '\0', '2');
@@ -324,32 +351,50 @@ INSERT INTO `quark_posts` VALUES ('200', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁�
 INSERT INTO `quark_posts` VALUES ('201', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁97', '\0', '2017-08-28 16:03:06', '1', '0', '测试帖子97', '\0', '2');
 INSERT INTO `quark_posts` VALUES ('202', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁98', '\0', '2017-08-28 16:03:06', '1', '0', '测试帖子98', '\0', '2');
 INSERT INTO `quark_posts` VALUES ('203', '希鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁鲁99', '\0', '2017-08-28 16:03:06', '1', '0', '测试帖子99', '\0', '2');
-INSERT INTO `quark_posts` VALUES ('205', '<p>&lt;dependency&gt;</p><p><span>			</span>&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</p><p><span>			</span>&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</p><p>&lt;/dependency&gt;</p>', '', '2017-08-28 21:52:55', '4', '1', '在Spring boot中配置Thymeleaf', '\0', '2');
-INSERT INTO `quark_posts` VALUES ('206', '<p><img src=\"http://127.0.0.1/images/upload/2017-08-28/b8d8e982-0f66-4f19-871b-c7d01af37a9f.png\" alt=\"null\"><br></p>', '', '2017-08-28 22:46:59', '3', '1', 'Class文件装载流程', '\0', '2');
-INSERT INTO `quark_posts` VALUES ('208', '<p><img src=\"http://127.0.0.1/images/upload/2017-09-01/23c98bba-5959-4540-ab1d-9d3e7a2ecdec.png\" alt=\"null\"><br></p><p><br></p>', '', '2017-09-01 22:01:27', '3', '2', 'JVM体系', '', '2');
-INSERT INTO `quark_posts` VALUES ('209', '<img src=\"http://localhost:8082/layui/images/face/11.gif\" alt=\"[爱你]\">', '\0', '2017-09-03 11:05:25', '5', '2', '探索R闪背后的奥秘', '\0', '71');
-INSERT INTO `quark_posts` VALUES ('210', '<p><span lang=\"EN-US\">filterChainDefinitionMap.put(</span><span lang=\"EN-US\">\"/favicon.ico\"</span><span lang=\"EN-US\">,</span><span lang=\"EN-US\">\"anon\"</span><span lang=\"EN-US\">)</span><span lang=\"EN-US\">;</span><span lang=\"EN-US\">//</span><span>解决弹出</span><span lang=\"EN-US\">favicon.ico</span><span>下载</span></p><p><span><img src=\"http://127.0.0.1/images/upload/2017-09-03/ec32b602-f818-4258-86bc-ac247e0c48ec.jpeg\" alt=\"null\"><br></span></p>', '\0', '2017-09-03 11:07:21', '2', '4', 'shiro在登录的时候下载favicon.ico问题', '\0', '71');
-INSERT INTO `quark_posts` VALUES ('211', 'view结构<img src=\"http://127.0.0.1/images/upload/2017-09-05/798c1656-3d6d-4f72-8080-a6b0cd75486b.png\" alt=\"null\">', '\0', '2017-09-05 10:38:27', '9', '1', 'Android View机制', '\0', '72');
-INSERT INTO `quark_posts` VALUES ('212', '<img src=\"http://localhost:8082/layui/images/face/51.gif\" alt=\"[兔子]\">', '\0', '2017-09-05 10:38:59', '9', '4', '新人报到', '\0', '72');
-INSERT INTO `quark_posts` VALUES ('213', '<p><span lang=\"EN-US\">1 </span><span>先来先服务<span lang=\"EN-US\"> - </span>时间片轮转调度<span lang=\"EN-US\"><br>\n</span>这个很简单，就是谁先来，就给谁分配时间片运行，缺点是有些紧急的任务要很久才能得到运行。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">2.&nbsp;</span><span>优先级调度<span lang=\"EN-US\"><br>\n</span>每个线程有一个优先级，<span lang=\"EN-US\">CPU</span>每次去拿优先级高的运行，优先级低的等等，为了避免优先级低的等太久，每等一定时间，就给优先级低的线程提高一个级别</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">3.</span><span>最短作业优先<span lang=\"EN-US\"><br>\n</span>把线程任务量排序，每次拿处理时间短的线程运行，就像我去银行办业务一样，我的事情很快就处理完了，所以让我插队先办完，后面时间长的人先等等，时间长的人就很难得到响应了。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">4.&nbsp;</span><span>最高响应比优先<span lang=\"EN-US\"><br>\n</span>用线程的等待时间除以服务时间，得到响应比，响应比小的优先运行。这样不会造成某些任务一直得不到响应。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p>\n\n\n\n\n\n\n\n</p><p><span lang=\"EN-US\">5.</span><span>多级反馈队列调度<span lang=\"EN-US\"><br>\n</span>有多个优先级不同的队列，每个队列里面有多个等待线程。<span lang=\"EN-US\"><br>\nCPU</span>每次从优先级高的遍历到低的，取队首的线程运行，运行完了放回队尾，优先级越高，时间片越短，即响应越快，时间片大小就不是固定的了。<span lang=\"EN-US\"><br>\n</span>每个队列的内部还是用先来先服务的策略。</span><span lang=\"EN-US\"><o:p></o:p></span></p>', '\0', '2017-09-07 10:21:06', '8', '6', '并发的CPU调度策略', '\0', '2');
+INSERT INTO `quark_posts` VALUES ('205',
+                                  '<p>&lt;dependency&gt;</p><p><span>			</span>&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</p><p><span>			</span>&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</p><p>&lt;/dependency&gt;</p>',
+                                  '', '2017-08-28 21:52:55', '4', '1', '在Spring boot中配置Thymeleaf', '\0', '2');
+INSERT INTO `quark_posts` VALUES
+  ('206', '<p><img src=\"http://127.0.0.1/images/upload/2017-08-28/b8d8e982-0f66-4f19-871b-c7d01af37a9f.png\" alt=\"null\"><br></p>', '',
+   '2017-08-28 22:46:59', '3', '1', 'Class文件装载流程', '\0', '2');
+INSERT INTO `quark_posts` VALUES
+  ('208', '<p><img src=\"http://127.0.0.1/images/upload/2017-09-01/23c98bba-5959-4540-ab1d-9d3e7a2ecdec.png\" alt=\"null\"><br></p><p><br></p>', '',
+   '2017-09-01 22:01:27', '3', '2', 'JVM体系', '', '2');
+INSERT INTO `quark_posts` VALUES
+  ('209', '<img src=\"http://localhost:8082/layui/images/face/11.gif\" alt=\"[爱你]\">', '\0', '2017-09-03 11:05:25', '5', '2', '探索R闪背后的奥秘', '\0',
+   '71');
+INSERT INTO `quark_posts` VALUES ('210',
+                                  '<p><span lang=\"EN-US\">filterChainDefinitionMap.put(</span><span lang=\"EN-US\">\"/favicon.ico\"</span><span lang=\"EN-US\">,</span><span lang=\"EN-US\">\"anon\"</span><span lang=\"EN-US\">)</span><span lang=\"EN-US\">;</span><span lang=\"EN-US\">//</span><span>解决弹出</span><span lang=\"EN-US\">favicon.ico</span><span>下载</span></p><p><span><img src=\"http://127.0.0.1/images/upload/2017-09-03/ec32b602-f818-4258-86bc-ac247e0c48ec.jpeg\" alt=\"null\"><br></span></p>',
+                                  '\0', '2017-09-03 11:07:21', '2', '4', 'shiro在登录的时候下载favicon.ico问题', '\0', '71');
+INSERT INTO `quark_posts` VALUES
+  ('211', 'view结构<img src=\"http://127.0.0.1/images/upload/2017-09-05/798c1656-3d6d-4f72-8080-a6b0cd75486b.png\" alt=\"null\">', '\0',
+   '2017-09-05 10:38:27', '9', '1', 'Android View机制', '\0', '72');
+INSERT INTO `quark_posts` VALUES
+  ('212', '<img src=\"http://localhost:8082/layui/images/face/51.gif\" alt=\"[兔子]\">', '\0', '2017-09-05 10:38:59', '9', '4', '新人报到', '\0', '72');
+INSERT INTO `quark_posts` VALUES ('213',
+                                  '<p><span lang=\"EN-US\">1 </span><span>先来先服务<span lang=\"EN-US\"> - </span>时间片轮转调度<span lang=\"EN-US\"><br>\n</span>这个很简单，就是谁先来，就给谁分配时间片运行，缺点是有些紧急的任务要很久才能得到运行。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">2.&nbsp;</span><span>优先级调度<span lang=\"EN-US\"><br>\n</span>每个线程有一个优先级，<span lang=\"EN-US\">CPU</span>每次去拿优先级高的运行，优先级低的等等，为了避免优先级低的等太久，每等一定时间，就给优先级低的线程提高一个级别</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">3.</span><span>最短作业优先<span lang=\"EN-US\"><br>\n</span>把线程任务量排序，每次拿处理时间短的线程运行，就像我去银行办业务一样，我的事情很快就处理完了，所以让我插队先办完，后面时间长的人先等等，时间长的人就很难得到响应了。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p><span lang=\"EN-US\">4.&nbsp;</span><span>最高响应比优先<span lang=\"EN-US\"><br>\n</span>用线程的等待时间除以服务时间，得到响应比，响应比小的优先运行。这样不会造成某些任务一直得不到响应。</span><span lang=\"EN-US\"><o:p></o:p></span></p><p>\n\n\n\n\n\n\n\n</p><p><span lang=\"EN-US\">5.</span><span>多级反馈队列调度<span lang=\"EN-US\"><br>\n</span>有多个优先级不同的队列，每个队列里面有多个等待线程。<span lang=\"EN-US\"><br>\nCPU</span>每次从优先级高的遍历到低的，取队首的线程运行，运行完了放回队尾，优先级越高，时间片越短，即响应越快，时间片大小就不是固定的了。<span lang=\"EN-US\"><br>\n</span>每个队列的内部还是用先来先服务的策略。</span><span lang=\"EN-US\"><o:p></o:p></span></p>',
+                                  '\0', '2017-09-07 10:21:06', '8', '6', '并发的CPU调度策略', '\0', '2');
 
 -- ----------------------------
 -- Table structure for quark_reply
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_reply`;
 CREATE TABLE `quark_reply` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` text NOT NULL,
-  `init_time` datetime DEFAULT NULL,
-  `up` int(11) NOT NULL,
-  `posts_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id`        INT(11) NOT NULL AUTO_INCREMENT,
+  `content`   TEXT    NOT NULL,
+  `init_time` DATETIME         DEFAULT NULL,
+  `up`        INT(11) NOT NULL,
+  `posts_id`  INT(11) NOT NULL,
+  `user_id`   INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKnr6a7xtk9rm31ptn6gchi9113` (`posts_id`),
   KEY `FKnt12hb9oqfm5eamjpg27bkpvv` (`user_id`),
   CONSTRAINT `FKnr6a7xtk9rm31ptn6gchi9113` FOREIGN KEY (`posts_id`) REFERENCES `quark_posts` (`id`),
   CONSTRAINT `FKnt12hb9oqfm5eamjpg27bkpvv` FOREIGN KEY (`user_id`) REFERENCES `quark_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 77
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_reply
@@ -389,38 +434,60 @@ INSERT INTO `quark_reply` VALUES ('35', '希鲁鲁', '2017-08-30 22:42:38', '0',
 INSERT INTO `quark_reply` VALUES ('36', '测试', '2017-08-30 22:44:50', '0', '105', '2');
 INSERT INTO `quark_reply` VALUES ('37', '不错啊不错哇', '2017-08-30 22:45:31', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('38', '不错啊不错哇', '2017-08-30 22:47:36', '0', '206', '2');
-INSERT INTO `quark_reply` VALUES ('39', '好剧，谢谢推荐<img src=\"http://localhost:8082/layui/images/face/47.gif\" alt=\"[心]\">', '2017-08-30 23:20:37', '0', '4', '2');
-INSERT INTO `quark_reply` VALUES ('40', '<p>垃圾哥乱入<img src=\"http://localhost:8082/layui/images/face/13.gif\" alt=\"[偷笑]\"></p><p><img src=\"http://127.0.0.1/images/upload/2017-08-30/a8570c79-a779-4a11-b162-c38f03f86b3b.jpeg\" alt=\"null\"></p>', '2017-08-30 23:25:33', '0', '4', '2');
+INSERT INTO `quark_reply`
+VALUES ('39', '好剧，谢谢推荐<img src=\"http://localhost:8082/layui/images/face/47.gif\" alt=\"[心]\">', '2017-08-30 23:20:37', '0', '4', '2');
+INSERT INTO `quark_reply` VALUES ('40',
+                                  '<p>垃圾哥乱入<img src=\"http://localhost:8082/layui/images/face/13.gif\" alt=\"[偷笑]\"></p><p><img src=\"http://127.0.0.1/images/upload/2017-08-30/a8570c79-a779-4a11-b162-c38f03f86b3b.jpeg\" alt=\"null\"></p>',
+                                  '2017-08-30 23:25:33', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('41', '不错', '2017-08-30 23:26:34', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('42', '哈哈', '2017-08-30 23:27:55', '0', '4', '2');
-INSERT INTO `quark_reply` VALUES ('43', '铁打的父母流水的孩子~<img src=\"http://localhost:8082/layui/images/face/8.gif\" alt=\"[挤眼]\">', '2017-08-30 23:29:51', '0', '4', '2');
-INSERT INTO `quark_reply` VALUES ('44', '<p><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\">好看</p>', '2017-08-31 14:57:03', '0', '4', '2');
+INSERT INTO `quark_reply`
+VALUES ('43', '铁打的父母流水的孩子~<img src=\"http://localhost:8082/layui/images/face/8.gif\" alt=\"[挤眼]\">', '2017-08-30 23:29:51', '0', '4', '2');
+INSERT INTO `quark_reply` VALUES ('44',
+                                  '<p><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\">好看</p>',
+                                  '2017-08-31 14:57:03', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('45', '好好好', '2017-08-31 15:05:10', '0', '4', '2');
-INSERT INTO `quark_reply` VALUES ('46', '牛逼<img src=\"http://localhost:8082/layui/images/face/0.gif\" alt=\"[微笑]\">', '2017-08-31 15:35:15', '0', '4', '2');
-INSERT INTO `quark_reply` VALUES ('47', '不错，很清晰<img src=\"http://localhost:8082/layui/images/face/49.gif\" alt=\"[猪头]\">', '2017-09-01 22:01:43', '0', '208', '2');
-INSERT INTO `quark_reply` VALUES ('48', '厉害啊<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-03 11:32:23', '0', '210', '2');
-INSERT INTO `quark_reply` VALUES ('49', '<img src=\"http://localhost:8082/layui/images/face/26.gif\" alt=\"[怒]\">', '2017-09-05 10:26:14', '0', '209', '2');
-INSERT INTO `quark_reply` VALUES ('50', '有意思<img src=\"http://127.0.0.1/images/upload/2017-09-05/6dbe0e05-22b2-402c-b6be-bf9b4d7ca0db.jpeg\" alt=\"null\">', '2017-09-05 10:32:42', '0', '210', '72');
-INSERT INTO `quark_reply` VALUES ('51', '很清晰<img src=\"http://localhost:8082/layui/images/face/11.gif\" alt=\"[爱你]\">', '2017-09-05 10:39:18', '0', '211', '2');
+INSERT INTO `quark_reply`
+VALUES ('46', '牛逼<img src=\"http://localhost:8082/layui/images/face/0.gif\" alt=\"[微笑]\">', '2017-08-31 15:35:15', '0', '4', '2');
+INSERT INTO `quark_reply`
+VALUES ('47', '不错，很清晰<img src=\"http://localhost:8082/layui/images/face/49.gif\" alt=\"[猪头]\">', '2017-09-01 22:01:43', '0', '208', '2');
+INSERT INTO `quark_reply`
+VALUES ('48', '厉害啊<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-03 11:32:23', '0', '210', '2');
+INSERT INTO `quark_reply`
+VALUES ('49', '<img src=\"http://localhost:8082/layui/images/face/26.gif\" alt=\"[怒]\">', '2017-09-05 10:26:14', '0', '209', '2');
+INSERT INTO `quark_reply` VALUES
+  ('50', '有意思<img src=\"http://127.0.0.1/images/upload/2017-09-05/6dbe0e05-22b2-402c-b6be-bf9b4d7ca0db.jpeg\" alt=\"null\">', '2017-09-05 10:32:42',
+   '0', '210', '72');
+INSERT INTO `quark_reply`
+VALUES ('51', '很清晰<img src=\"http://localhost:8082/layui/images/face/11.gif\" alt=\"[爱你]\">', '2017-09-05 10:39:18', '0', '211', '2');
 INSERT INTO `quark_reply` VALUES ('52', '?', '2017-09-06 15:43:18', '0', '212', '2');
-INSERT INTO `quark_reply` VALUES ('53', '不错嘛<img src=\"http://127.0.0.1/images/upload/2017-09-06/0b41e3fe-1023-4030-a166-832497589086.jpeg\" alt=\"null\">', '2017-09-06 15:45:58', '0', '205', '2');
-INSERT INTO `quark_reply` VALUES ('54', '新人爆照<img src=\"http://localhost:8082/layui/images/face/30.gif\" alt=\"[思考]\">', '2017-09-06 16:27:28', '0', '212', '2');
-INSERT INTO `quark_reply` VALUES ('55', '希鲁鲁鲁<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-06 16:36:25', '0', '212', '71');
-INSERT INTO `quark_reply` VALUES ('56', '希鲁鲁鲁<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-06 16:36:26', '0', '212', '71');
+INSERT INTO `quark_reply` VALUES
+  ('53', '不错嘛<img src=\"http://127.0.0.1/images/upload/2017-09-06/0b41e3fe-1023-4030-a166-832497589086.jpeg\" alt=\"null\">', '2017-09-06 15:45:58',
+   '0', '205', '2');
+INSERT INTO `quark_reply`
+VALUES ('54', '新人爆照<img src=\"http://localhost:8082/layui/images/face/30.gif\" alt=\"[思考]\">', '2017-09-06 16:27:28', '0', '212', '2');
+INSERT INTO `quark_reply`
+VALUES ('55', '希鲁鲁鲁<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-06 16:36:25', '0', '212', '71');
+INSERT INTO `quark_reply`
+VALUES ('56', '希鲁鲁鲁<img src=\"http://localhost:8082/layui/images/face/36.gif\" alt=\"[酷]\">', '2017-09-06 16:36:26', '0', '212', '71');
 INSERT INTO `quark_reply` VALUES ('57', '不错嘛<br>', '2017-09-06 20:22:16', '0', '4', '71');
 INSERT INTO `quark_reply` VALUES ('58', '对啊', '2017-09-06 20:28:36', '0', '210', '2');
 INSERT INTO `quark_reply` VALUES ('59', '不错', '2017-09-06 20:36:17', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('60', '居然自问自答，呵呵<br>', '2017-09-06 20:36:32', '0', '4', '71');
 INSERT INTO `quark_reply` VALUES ('61', '再看看自问自答是否修复了', '2017-09-06 20:41:01', '0', '4', '2');
 INSERT INTO `quark_reply` VALUES ('62', '很强势啊，试试推送功能', '2017-09-06 20:41:42', '0', '208', '71');
-INSERT INTO `quark_reply` VALUES ('63', '测试推送？<img src=\"http://localhost:8082/layui/images/face/0.gif\" alt=\"[微笑]\">', '2017-09-07 10:03:03', '0', '210', '2');
+INSERT INTO `quark_reply`
+VALUES ('63', '测试推送？<img src=\"http://localhost:8082/layui/images/face/0.gif\" alt=\"[微笑]\">', '2017-09-07 10:03:03', '0', '210', '2');
 INSERT INTO `quark_reply` VALUES ('64', '很实用<br>', '2017-09-07 10:21:23', '0', '213', '71');
-INSERT INTO `quark_reply` VALUES ('65', '简直无解<img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/25.gif\" alt=\"[抱抱]\">', '2017-09-07 10:21:47', '0', '213', '71');
+INSERT INTO `quark_reply` VALUES ('65',
+                                  '简直无解<img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/16.gif\" alt=\"[太开心]\"><img src=\"http://localhost:8082/layui/images/face/25.gif\" alt=\"[抱抱]\">',
+                                  '2017-09-07 10:21:47', '0', '213', '71');
 INSERT INTO `quark_reply` VALUES ('66', '很好', '2017-09-07 10:22:19', '0', '213', '71');
 INSERT INTO `quark_reply` VALUES ('67', '测试推送', '2017-09-07 10:24:43', '0', '213', '71');
 INSERT INTO `quark_reply` VALUES ('68', '测试测试测试', '2017-09-07 10:25:30', '0', '213', '71');
 INSERT INTO `quark_reply` VALUES ('69', '测试推送', '2017-09-07 10:27:51', '0', '213', '71');
-INSERT INTO `quark_reply` VALUES ('70', '<img src=\"http://localhost:8082/layui/images/face/42.gif\" alt=\"[抓狂]\">', '2017-09-07 10:39:33', '0', '209', '2');
+INSERT INTO `quark_reply`
+VALUES ('70', '<img src=\"http://localhost:8082/layui/images/face/42.gif\" alt=\"[抓狂]\">', '2017-09-07 10:39:33', '0', '209', '2');
 INSERT INTO `quark_reply` VALUES ('71', '测试推送<br>', '2017-09-07 11:02:23', '0', '4', '71');
 INSERT INTO `quark_reply` VALUES ('72', '测试推送', '2017-09-07 11:04:15', '0', '4', '71');
 INSERT INTO `quark_reply` VALUES ('73', '测试推送<br>', '2017-09-07 11:12:22', '0', '4', '71');
@@ -433,12 +500,15 @@ INSERT INTO `quark_reply` VALUES ('76', '真.最后一次测试了', '2017-09-07
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_role`;
 CREATE TABLE `quark_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
+  `id`          INT(11)      NOT NULL AUTO_INCREMENT,
+  `description` VARCHAR(255)          DEFAULT NULL,
+  `name`        VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_ff572j64wr6y4taed1c27vfo6` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 7
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_role
@@ -451,13 +521,15 @@ INSERT INTO `quark_role` VALUES ('6', '管理用户', '用户管理员');
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_role_permission`;
 CREATE TABLE `quark_role_permission` (
-  `role_id` int(11) NOT NULL,
-  `permissions_id` int(11) NOT NULL,
-  PRIMARY KEY (`role_id`,`permissions_id`),
+  `role_id`        INT(11) NOT NULL,
+  `permissions_id` INT(11) NOT NULL,
+  PRIMARY KEY (`role_id`, `permissions_id`),
   KEY `FKlsdkf5vtsq5qvepw45r0y89jw` (`permissions_id`),
   CONSTRAINT `FK763ep4ix05naeoliv21sm6m81` FOREIGN KEY (`role_id`) REFERENCES `quark_role` (`id`),
   CONSTRAINT `FKlsdkf5vtsq5qvepw45r0y89jw` FOREIGN KEY (`permissions_id`) REFERENCES `quark_permission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_role_permission
@@ -496,88 +568,227 @@ INSERT INTO `quark_role_permission` VALUES ('1', '28');
 -- ----------------------------
 DROP TABLE IF EXISTS `quark_user`;
 CREATE TABLE `quark_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `icon` varchar(255) NOT NULL,
-  `enable` int(11) NOT NULL,
-  `init_time` datetime NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `sex` int(11) DEFAULT NULL,
-  `signature` varchar(255) DEFAULT NULL,
-  `username` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `id`        INT(11)      NOT NULL AUTO_INCREMENT,
+  `icon`      VARCHAR(255) NOT NULL,
+  `enable`    INT(11)      NOT NULL,
+  `init_time` DATETIME     NOT NULL,
+  `password`  VARCHAR(255) NOT NULL,
+  `sex`       INT(11)               DEFAULT NULL,
+  `signature` VARCHAR(255)          DEFAULT NULL,
+  `username`  VARCHAR(255) NOT NULL,
+  `email`     VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_2uqfoo05i1p5qm4ntysj2ivbs` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 73
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of quark_user
 -- ----------------------------
-INSERT INTO `quark_user` VALUES ('2', 'http://127.0.0.1/images/upload/2017-09-06/70e5b07c-4609-4925-bb1f-e965daa65899.jpeg', '1', '2017-08-22 23:10:17', '25d55ad283aa400af464c76d713c07ad', '0', 'Java从入门到弃坑', 'lhr1988', '1420432344@qq.com');
-INSERT INTO `quark_user` VALUES ('5', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 10:37:28', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '丁三石', '163@163.com');
-INSERT INTO `quark_user` VALUES ('6', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 11:56:38', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '马化腾', 'qq@qq.com');
-INSERT INTO `quark_user` VALUES ('7', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵0号', '0tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('8', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵1号', '1tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('9', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵2号', '2tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('10', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵3号', '3tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('11', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵4号', '4tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('12', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵5号', '5tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('13', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵6号', '6tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('14', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵7号', '7tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('15', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵8号', '8tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('16', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵9号', '9tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('17', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵10号', '10tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('18', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵11号', '11tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('19', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵12号', '12tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('20', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵13号', '13tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('21', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵14号', '14tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('22', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵15号', '15tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('23', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵16号', '16tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('24', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵17号', '17tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('25', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵18号', '18tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('26', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵19号', '19tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('27', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵20号', '20tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('28', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵21号', '21tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('29', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵22号', '22tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('30', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵23号', '23tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('31', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵24号', '24tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('32', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵25号', '25tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('33', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵26号', '26tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('34', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵27号', '27tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('35', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵28号', '28tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('36', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:25', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵29号', '29tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('37', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵30号', '30tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('38', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵31号', '31tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('39', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵32号', '32tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('40', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵33号', '33tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('41', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵34号', '34tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('42', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵35号', '35tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('43', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵36号', '36tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('44', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵37号', '37tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('45', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵38号', '38tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('46', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵39号', '39tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('47', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵40号', '40tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('48', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵41号', '41tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('49', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵42号', '42tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('50', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵43号', '43tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('51', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵44号', '44tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('52', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵45号', '45tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('53', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵46号', '46tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('54', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵47号', '47tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('55', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵48号', '48tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('56', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵49号', '49tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('57', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵50号', '50tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('58', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵51号', '51tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('59', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵52号', '52tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('60', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵53号', '53tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('61', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵54号', '54tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('62', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵55号', '55tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('63', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵56号', '56tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('64', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵57号', '57tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('65', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵58号', '58tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('66', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '图灵59号', '59tulin@gmail.com');
-INSERT INTO `quark_user` VALUES ('67', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-26 15:03:21', 'f379eaf3c831b04de153469d1bec345e', '0', null, '拉里·佩奇', 'gmail@gmail.com');
-INSERT INTO `quark_user` VALUES ('68', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-26 22:29:11', 'e10adc3949ba59abbe56e057f20f883e', '0', null, '比尔盖茨', 'Microsoft@Outlook.com');
-INSERT INTO `quark_user` VALUES ('69', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-27 10:35:14', 'c8837b23ff8aaa8a2dde915473ce0991', '0', null, 'cc', '111@cc.com');
-INSERT INTO `quark_user` VALUES ('70', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-31 12:13:54', 'e10adc3949ba59abbe56e057f20f883e', '0', null, 'CCTV旗下品牌', 'ccav@china.com');
-INSERT INTO `quark_user` VALUES ('71', 'http://127.0.0.1/images/upload/2017-09-03/51fb238d-00a3-49d2-91c5-25d1e54fff3e.jpeg', '1', '2017-09-03 11:04:03', 'e10adc3949ba59abbe56e057f20f883e', '1', '一库~~~~', '盲僧李青', 'lol@lol.com');
-INSERT INTO `quark_user` VALUES ('72', 'http://127.0.0.1/images/upload/2017-09-05/679e2736-54b5-4d73-b38f-b7b7ab61e3c1.jpeg', '1', '2017-09-05 10:31:27', 'e10adc3949ba59abbe56e057f20f883e', '1', '汪汪汪~~~', '萨摩王~', 'sa@sa.com');
+INSERT INTO `quark_user` VALUES
+  ('2', 'http://127.0.0.1/images/upload/2017-09-06/70e5b07c-4609-4925-bb1f-e965daa65899.jpeg', '1', '2017-08-22 23:10:17',
+   '25d55ad283aa400af464c76d713c07ad', '0', 'Java从入门到弃坑', 'lhr1988', '1420432344@qq.com');
+INSERT INTO `quark_user` VALUES
+  ('5', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 10:37:28', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '丁三石',
+   '163@163.com');
+INSERT INTO `quark_user` VALUES
+  ('6', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 11:56:38', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '马化腾', 'qq@qq.com');
+INSERT INTO `quark_user` VALUES
+  ('7', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵0号',
+   '0tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('8', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵1号',
+   '1tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('9', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵2号',
+   '2tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('10', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵3号',
+   '3tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('11', 'http://127.0.0.1/images/upload/default.png', '0', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵4号',
+   '4tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('12', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:23', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵5号',
+   '5tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('13', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵6号',
+   '6tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('14', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵7号',
+   '7tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('15', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵8号',
+   '8tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('16', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵9号',
+   '9tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('17', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵10号',
+   '10tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('18', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵11号',
+   '11tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('19', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵12号',
+   '12tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('20', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵13号',
+   '13tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('21', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵14号',
+   '14tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('22', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵15号',
+   '15tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('23', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵16号',
+   '16tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('24', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵17号',
+   '17tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('25', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵18号',
+   '18tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('26', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵19号',
+   '19tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('27', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵20号',
+   '20tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('28', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵21号',
+   '21tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('29', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵22号',
+   '22tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('30', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵23号',
+   '23tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('31', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵24号',
+   '24tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('32', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵25号',
+   '25tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('33', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵26号',
+   '26tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('34', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵27号',
+   '27tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('35', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:24', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵28号',
+   '28tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('36', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:51:25', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵29号',
+   '29tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('37', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵30号',
+   '30tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('38', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵31号',
+   '31tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('39', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵32号',
+   '32tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('40', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵33号',
+   '33tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('41', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵34号',
+   '34tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('42', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵35号',
+   '35tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('43', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:18', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵36号',
+   '36tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('44', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵37号',
+   '37tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('45', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵38号',
+   '38tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('46', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵39号',
+   '39tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('47', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵40号',
+   '40tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('48', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵41号',
+   '41tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('49', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵42号',
+   '42tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('50', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵43号',
+   '43tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('51', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵44号',
+   '44tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('52', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵45号',
+   '45tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('53', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵46号',
+   '46tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('54', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵47号',
+   '47tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('55', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵48号',
+   '48tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('56', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵49号',
+   '49tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('57', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵50号',
+   '50tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('58', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵51号',
+   '51tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('59', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵52号',
+   '52tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('60', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵53号',
+   '53tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('61', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:19', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵54号',
+   '54tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('62', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵55号',
+   '55tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('63', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵56号',
+   '56tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('64', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵57号',
+   '57tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('65', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵58号',
+   '58tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('66', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-25 20:52:20', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '图灵59号',
+   '59tulin@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('67', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-26 15:03:21', 'f379eaf3c831b04de153469d1bec345e', '0', NULL, '拉里·佩奇',
+   'gmail@gmail.com');
+INSERT INTO `quark_user` VALUES
+  ('68', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-26 22:29:11', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, '比尔盖茨',
+   'Microsoft@Outlook.com');
+INSERT INTO `quark_user` VALUES
+  ('69', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-27 10:35:14', 'c8837b23ff8aaa8a2dde915473ce0991', '0', NULL, 'cc', '111@cc.com');
+INSERT INTO `quark_user` VALUES
+  ('70', 'http://127.0.0.1/images/upload/default.png', '1', '2017-08-31 12:13:54', 'e10adc3949ba59abbe56e057f20f883e', '0', NULL, 'CCTV旗下品牌',
+   'ccav@china.com');
+INSERT INTO `quark_user` VALUES
+  ('71', 'http://127.0.0.1/images/upload/2017-09-03/51fb238d-00a3-49d2-91c5-25d1e54fff3e.jpeg', '1', '2017-09-03 11:04:03',
+   'e10adc3949ba59abbe56e057f20f883e', '1', '一库~~~~', '盲僧李青', 'lol@lol.com');
+INSERT INTO `quark_user` VALUES
+  ('72', 'http://127.0.0.1/images/upload/2017-09-05/679e2736-54b5-4d73-b38f-b7b7ab61e3c1.jpeg', '1', '2017-09-05 10:31:27',
+   'e10adc3949ba59abbe56e057f20f883e', '1', '汪汪汪~~~', '萨摩王~', 'sa@sa.com');
