@@ -1,7 +1,5 @@
 package common.entity;
 
-import javafx.geometry.Pos;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -19,12 +17,13 @@ public class Collect implements Serializable{
     private Timestamp initTime;
 
     @ManyToOne
-    @Column(name = "posts_id")
+    @JoinColumn(name = "posts_id")
     private Post post;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
+
 
     public int getId() {
         return id;

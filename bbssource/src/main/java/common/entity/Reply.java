@@ -24,11 +24,11 @@ public class Reply implements Serializable{
     private int upState;
 
     @ManyToOne
-    @Column(name = "post_id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public int getUpState() {

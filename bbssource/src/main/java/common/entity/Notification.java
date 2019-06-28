@@ -1,8 +1,6 @@
 package common.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -19,16 +17,16 @@ public class Notification implements Serializable {
     private boolean isRead;
 
 
-    @Column(name = "fromuser_id")
-    @OneToOne
+    @JoinColumn(name = "fromuser_id")
+    @ManyToOne
     private int fromUserId;
 
-    @Column(name = "posts_id")
-    @OneToOne
+    @JoinColumn(name = "posts_id")
+    @ManyToOne
     private int postsId;
 
-    @Column(name = "touser_id")
-    @OneToOne
+    @JoinColumn(name = "touser_id")
+    @ManyToOne
     private int toUserId;
 
     @Column(name = "init_time")

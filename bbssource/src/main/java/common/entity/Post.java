@@ -27,7 +27,7 @@ public class Post implements Serializable {
     @Column(name = "init_time")
     private Timestamp initTime;
 
-    @Column(name = "label_id")
+    @JoinColumn(name = "label_id")
     @ManyToOne
     private Label label;
 
@@ -41,7 +41,7 @@ public class Post implements Serializable {
     private boolean isTop;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public int getId() {
