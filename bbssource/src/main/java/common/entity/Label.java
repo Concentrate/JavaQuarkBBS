@@ -1,38 +1,38 @@
 package common.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by liudeyu on 2019/6/27.
+ * @Author LHR
+ * Create By 2017/8/18
+ *
+ * 标签
  */
 @Entity
 @Table(name = "quark_label")
 public class Label implements Serializable {
 
-    @Column(name = "id")
+    @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
-    @Column(name = "name")
+    //标签名称
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(name = "details")
-    private String detail;
-
+    //主题数量
     @Column(name = "posts_count")
-    private int postCount;
+    private Integer postsCount = 0;
 
-    public int getId() {
+    //详情
+    private String details;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -44,19 +44,19 @@ public class Label implements Serializable {
         this.name = name;
     }
 
-    public String getDetail() {
-        return detail;
+    public Integer getPostsCount() {
+        return postsCount;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setPostsCount(Integer postsCount) {
+        this.postsCount = postsCount;
     }
 
-    public int getPostCount() {
-        return postCount;
+    public String getDetails() {
+        return details;
     }
 
-    public void setPostCount(int postCount) {
-        this.postCount = postCount;
+    public void setDetails(String details) {
+        this.details = details;
     }
 }

@@ -1,43 +1,53 @@
 package common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import common.utils.Constants;
+
 import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by liudeyu on 2019/6/27.
+ * @Author LHR
+ * Create By 2017/8/18
+ *
+ * 通知
  */
-public class Notification implements Serializable {
+@Entity
+@Table(name = "quark_notification")
+public class Notification {
 
+    @Id
     @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    private Integer id;
 
+    //通知是否已读
     @Column(name = "is_read")
-    private boolean isRead;
+    private boolean isRead = false;
 
+    //要通知的用户：立即加载
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false,name = "touser_id")
+    private User touser;
 
-    @JoinColumn(name = "fromuser_id")
-    @ManyToOne
-    private int fromUserId;
+    //发起通知的用户
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false,name = "fromuser_id")
+    private User fromuser;
 
-    @JoinColumn(name = "posts_id")
-    @ManyToOne
-    private int postsId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false,name = "posts_id")
+    private Posts posts;
 
-    @JoinColumn(name = "touser_id")
-    @ManyToOne
-    private int toUserId;
+    //发布时间
+    @Column(nullable = false)
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT, timezone = "GMT+8")
+    private Date initTime;
 
-    @Column(name = "init_time")
-    private Timestamp initTime;
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,35 +59,35 @@ public class Notification implements Serializable {
         isRead = read;
     }
 
-    public int getFromUserId() {
-        return fromUserId;
+    public User getTouser() {
+        return touser;
     }
 
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
+    public void setTouser(User touser) {
+        this.touser = touser;
     }
 
-    public int getPostsId() {
-        return postsId;
+    public User getFromuser() {
+        return fromuser;
     }
 
-    public void setPostsId(int postsId) {
-        this.postsId = postsId;
+    public void setFromuser(User fromuser) {
+        this.fromuser = fromuser;
     }
 
-    public int getToUserId() {
-        return toUserId;
+    public Posts getPosts() {
+        return posts;
     }
 
-    public void setToUserId(int toUserId) {
-        this.toUserId = toUserId;
+    public void setPosts(Posts posts) {
+        this.posts = posts;
     }
 
-    public Timestamp getInitTime() {
+    public Date getInitTime() {
         return initTime;
     }
 
-    public void setInitTime(Timestamp initTime) {
+    public void setInitTime(Date initTime) {
         this.initTime = initTime;
     }
 }

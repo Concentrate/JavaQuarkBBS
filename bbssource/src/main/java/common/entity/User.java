@@ -1,82 +1,72 @@
 package common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import common.utils.Constants;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by liudeyu on 2019/6/27.
+ * @Author LHR
+ * Create By 2017/8/18
+ *
+ * 用户
  */
 @Entity
-@Table(name = "quark_user")
-public class User  implements Serializable{
+@Table(name="quark_user")
+public class User implements Serializable {
 
+    @Id
     @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    private Integer id;
 
-
-    @Column(name = "icon")
-    private String icon;
-
-    @Column(name = "enable")
-    private int enable;
-    @Column(name = "init_time")
-    private Timestamp initTime;
-
-
-    @JsonIgnore
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "sex")
-    private int sex;
-
-    @Column(name = "signature")
-    private String signature;
-
-    @Column(name = "username")
-    private String userName;
-
-    @Column(name = "email")
+    //注册邮箱
+    @Column(nullable = false)
     private String email;
 
+    // 用户名
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    public int getId() {
+    // 密码
+    @Column(nullable = false)
+    @JsonIgnore
+    private String password;
+
+    // 头像
+    private String icon ="http://127.0.0.1/images/upload/default.png";
+
+    // 个人签名
+    private String signature;
+
+    // 注册时间
+    @Column(nullable = false)
+    @JsonFormat(pattern = Constants.DATE_FORMAT, timezone = "GMT+8")
+    private Date initTime;
+
+    //性别 0 ：男 1：女
+    private Integer sex = 0;
+
+    //是否被封禁,默认为１：开启
+    @Column(nullable = false)
+    private Integer enable = 1;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public int getEnable() {
-        return enable;
-    }
-
-    public void setEnable(int enable) {
-        this.enable = enable;
-    }
-
-    public Timestamp getInitTime() {
-        return initTime;
-    }
-
-    public void setInitTime(Timestamp initTime) {
-        this.initTime = initTime;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -87,12 +77,12 @@ public class User  implements Serializable{
         this.password = password;
     }
 
-    public int getSex() {
-        return sex;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setSex(int sex) {
-        this.sex = sex;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getSignature() {
@@ -103,12 +93,28 @@ public class User  implements Serializable{
         this.signature = signature;
     }
 
-    public String getUserName() {
-        return userName;
+    public Date getInitTime() {
+        return initTime;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setInitTime(Date initTime) {
+        this.initTime = initTime;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public Integer getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
     }
 
     public String getEmail() {
@@ -117,5 +123,19 @@ public class User  implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", Icon='" + icon + '\'' +
+                ", signature='" + signature + '\'' +
+                ", initTime=" + initTime +
+                ", sex=" + sex +
+                ", enable=" + enable +
+                '}';
     }
 }

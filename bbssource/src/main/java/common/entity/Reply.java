@@ -1,65 +1,54 @@
 package common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import common.utils.Constants;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by liudeyu on 2019/6/27.
+ * @Author LHR
+ * Create By 2017/8/18
+ *
+ * 回复
  */
 @Entity
 @Table(name = "quark_reply")
-public class Reply implements Serializable{
+public class Reply implements Serializable {
 
+    @Id
     @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    private Integer id;
 
-    @Column(name = "content")
+    //回复的内容
+    @Column(columnDefinition = "text", nullable = false)
     private String content;
-    @Column(name = "init_time")
-    private Timestamp initTime;
 
-    @Column(name = "up")
-    private int upState;
+    //回复时间
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT, timezone = "GMT+8")
+    private Date initTime;
 
+    //点赞个数
+    private Integer up = 0;
+
+    //与话题的关联关系
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(nullable = false, name = "posts_id")
+    @JsonIgnore
+    private Posts posts;
 
+    //与用户的关联关系
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    public int getUpState() {
-        return upState;
-    }
-
-    public void setUpState(int upState) {
-        this.upState = upState;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,11 +60,46 @@ public class Reply implements Serializable{
         this.content = content;
     }
 
-    public Timestamp getInitTime() {
+    public Date getInitTime() {
         return initTime;
     }
 
-    public void setInitTime(Timestamp initTime) {
+    public void setInitTime(Date initTime) {
         this.initTime = initTime;
+    }
+
+    public Integer getUp() {
+        return up;
+    }
+
+    public void setUp(Integer up) {
+        this.up = up;
+    }
+
+    public Posts getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Posts posts) {
+        this.posts = posts;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", initTime=" + initTime +
+                ", up=" + up +
+                ", user=" + user +
+                '}';
     }
 }

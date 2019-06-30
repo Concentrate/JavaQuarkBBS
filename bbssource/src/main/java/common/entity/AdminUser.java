@@ -1,5 +1,6 @@
 package common.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -8,56 +9,50 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by liudeyu on 2019/6/27.
+ * Created by lhr on 17-7-31.
  */
+
 @Entity
 @Table(name = "quark_adminuser")
-public class AdminUser implements Serializable {
-    @Column(name = "id")
+public class AdminUser implements Serializable{
+
+    @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
-    @Column(name = "enable")
-    private int enable;
+    @Column(unique = true,nullable = false)
+    private String username;
 
-    @Column(name = "password")
+    @Column(nullable = false)
     @JsonIgnore
     private String password;
 
-    @Column(name = "username")
-    private String userName;
+
+    //是否可以使用,默认为１
+    @Column(nullable = false)
+    private Integer enable = 1;
 
     @JsonIgnore
-    @JoinTable(name = "quark_adminuser_role", joinColumns = {@JoinColumn
-            (name = "adminuser_id", referencedColumnName = "id")}, inverseJoinColumns = {
-            @JoinColumn(name = "role_id", referencedColumnName = "id")
-    })
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Set<AdminUser> adminUsers = new HashSet<>();
+    @JoinTable(name = "quark_adminuser_role",
+            joinColumns = {@JoinColumn(name = "adminuser_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
 
-
-    public Set<AdminUser> getAdminUsers() {
-        return adminUsers;
-    }
-
-    public void setAdminUsers(Set<AdminUser> adminUsers) {
-        this.adminUsers = adminUsers;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getEnable() {
-        return enable;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEnable(int enable) {
-        this.enable = enable;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -68,11 +63,28 @@ public class AdminUser implements Serializable {
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public Integer getEnable() {
+        return enable;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "AdminUser{" +
+                "Id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enable=" + enable;
     }
 }
