@@ -1,7 +1,6 @@
 package common.baseservice;
 
 import common.exceptions.ApiException;
-import common.utils.Logger;
 
 /**
  * Created by liudeyu on 2019/6/30.
