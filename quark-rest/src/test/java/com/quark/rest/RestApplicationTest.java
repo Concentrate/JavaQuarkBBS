@@ -61,6 +61,7 @@ public class RestApplicationTest {
 //        redisService.deleteSet(REDIS_USERID_KEY,8);
 //            System.out.println(redisService.setHasValue(REDIS_USERID_KEY,5));
 //        postsDao.findAll();
+        System.out.println("say hello");
     }
 
 }

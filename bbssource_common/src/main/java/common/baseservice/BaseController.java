@@ -1,20 +1,20 @@
 package common.baseservice;
 
+import common.dto.QuarkResult;
 import common.exceptions.ApiException;
 
 /**
  * Created by liudeyu on 2019/6/30.
  */
-public  class BaseController {
+public class BaseController {
 
-    public void process(Processor processor){
+    public QuarkResult process(Processor processor) {
         try {
-            processor.process();
-        }catch (ApiException ex){
-
-
-        }catch (Exception ex){
-
+            return processor.process();
+        } catch (ApiException ex) {
+            return QuarkResult.Companion.error(ex.getStackTrace().toString());
+        } catch (Exception ex) {
+            return QuarkResult.errorSystem(ex.getStackTrace().toString());
         }
     }
 

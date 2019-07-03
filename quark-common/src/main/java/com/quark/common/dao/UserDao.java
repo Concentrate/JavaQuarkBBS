@@ -18,6 +18,6 @@ public interface UserDao extends JpaRepository<User,Integer> ,JpaSpecificationEx
     User findByEmail(String email);
 
     @Query(value = "select * from quark_user u where DATE_SUB(CURDATE(), INTERVAL 3000 DAY) <=DATE(u.init_time) ORDER BY u.id DESC limit 12" ,nativeQuery = true)
-    List<User> findNewUser();
+    List<Object> findNewUser();
 
 }

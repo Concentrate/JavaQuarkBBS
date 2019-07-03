@@ -27,6 +27,6 @@ public class RankServiceImpl  implements RankService{
 
     @Override
     public List<Object> findUserRank() {
-        return userDao.findNewUser();
+        return  userDao.findNewUser();
     }
 }

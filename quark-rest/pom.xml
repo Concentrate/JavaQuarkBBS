@@ -14,8 +14,13 @@
     <artifactId>quark-rest</artifactId>
     <packaging>war</packaging>
 
-    <dependencies>
 
+    <properties>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
+    <dependencies>
     <dependency>
         <groupId>com.quark</groupId>
         <artifactId>quark-common</artifactId>
@@ -58,4 +63,6 @@
             <artifactId>spring-messaging</artifactId>
         </dependency>
     </dependencies>
+
+
 </project>

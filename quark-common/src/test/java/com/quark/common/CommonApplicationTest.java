@@ -40,9 +40,7 @@ public class CommonApplicationTest {
 
     @Test
     public void TestDataSource(){
-        List<User>users= UserDao.findNewUser();
-        users.forEach(user -> {
-            System.out.println(user.getUsername());
-        });
+        List<Object>users= UserDao.findNewUser();
+
     }
 }

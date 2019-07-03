@@ -16,12 +16,19 @@ class QuarkResult() : Serializable {
 
     companion object {
 
+        @JvmStatic
         fun ok(data: Any): QuarkResult {
             val data = QuarkResult(HttpURLConnection.HTTP_OK, data)
             return data
         }
+        @JvmStatic
         fun error(errorMsg:String):QuarkResult{
-            return QuarkResult(HttpURLConnection.HTTP_INTERNAL_ERROR,errorMsg)
+            return QuarkResult(HttpURLConnection.HTTP_BAD_REQUEST,errorMsg)
+        }
+
+        @JvmStatic
+        fun errorSystem(errorMsg:String):QuarkResult{
+            return QuarkResult(HttpURLConnection.HTTP_INTERNAL_ERROR,errorMsg);
         }
 
     }
