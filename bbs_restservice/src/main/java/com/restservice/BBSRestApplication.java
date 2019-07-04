@@ -20,14 +20,14 @@ public class BBSRestApplication {
 
     public static void main(String[] argv) {
         SpringApplication springApplication = new SpringApplication(BBSRestApplication.class);
-//        InputStream inputStream = BBSRestApplication.class.getClassLoader().getResourceAsStream("rest.properties");
-//        Properties properties = new Properties();
-//        try {
-//            properties.load(inputStream);
-//            springApplication.setDefaultProperties(properties);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        InputStream inputStream = BBSRestApplication.class.getClassLoader().getResourceAsStream("rest.properties");
+        Properties properties = new Properties();
+        try {
+            properties.load(inputStream);
+            springApplication.setDefaultProperties(properties);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         springApplication.run(argv);
 

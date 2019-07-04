@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisService<T> {
 
-    @Autowired
-    private RedisTemplate<String, T> template;
+    @Resource(name="redis_custom")
+    private RedisTemplate template;
 
 
     /**
