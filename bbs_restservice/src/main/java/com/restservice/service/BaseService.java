@@ -9,8 +9,6 @@ public interface BaseService<T, KEY> {
 
     void save(T t);
 
-    List<T> find(KEY key);
-
     T findOne(KEY key);
 
     void delete(KEY key);
@@ -18,6 +16,8 @@ public interface BaseService<T, KEY> {
     void saveInBatch(Iterable<T> items);
 
     List<T> findInBatch(Iterable<KEY> keys);
+
+    List<T> findAll();
 
 
 }
