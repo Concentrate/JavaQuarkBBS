@@ -12,7 +12,7 @@ public class BaseController {
         try {
             return processor.process();
         } catch (ApiException ex) {
-            return QuarkResult.Companion.error(ex.getStackTrace().toString());
+            return QuarkResult.error(ex.getStackTrace().toString());
         } catch (Exception ex) {
             return QuarkResult.errorSystem(ex.getStackTrace().toString());
         }

@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @EnableCaching
 @SpringBootTest(classes = BBSRestApplication.class)
 @TestPropertySource(locations = {"classpath:rest.properties"})
-
 public class Test {
 
     @Autowired
