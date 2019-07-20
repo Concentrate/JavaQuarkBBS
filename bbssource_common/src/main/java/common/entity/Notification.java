@@ -22,7 +22,7 @@ public class Notification {
 
     //通知是否已读
     @Column(name = "is_read")
-    private boolean isRead = false;
+    private boolean read = false;
 
     //要通知的用户：立即加载
     @ManyToOne(fetch = FetchType.EAGER)
@@ -52,11 +52,11 @@ public class Notification {
     }
 
     public boolean isRead() {
-        return isRead;
+        return read;
     }
 
     public void setRead(boolean read) {
-        isRead = read;
+        this.read = read;
     }
 
     public User getTouser() {
