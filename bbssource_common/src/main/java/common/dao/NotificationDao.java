@@ -32,7 +32,7 @@ public interface NotificationDao extends JpaRepository<Notification, Integer>, J
     void updateNotificationRead(User user);
 
 
-    @Query(value = "delete from quark_notification n where n.touser=?1",nativeQuery = true)
+    @Query(value = "delete from quark_notification n where n.touser=?1", nativeQuery = true)
     void deleteNotiByToUserId(int uid);
 
 
