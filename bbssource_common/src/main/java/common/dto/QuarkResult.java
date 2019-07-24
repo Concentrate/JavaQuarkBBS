@@ -67,6 +67,10 @@ public class QuarkResult {
         return data;
     }
 
+    public static QuarkResult ok() {
+        return new QuarkResult(HttpURLConnection.HTTP_OK, null);
+    }
+
     public static QuarkResult error(String errorMsg) {
         return new QuarkResult(HttpURLConnection.HTTP_BAD_REQUEST, errorMsg);
     }

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisService<T> {
 
-    @Resource(name="redis_custom")
+    @Resource(name = "redis_custom")
     private RedisTemplate template;
 
 
@@ -33,13 +33,14 @@ public class RedisService<T> {
     }
 
 
+    /**time hour*/
     public T getDataAndUpdateTime(String key, int time) {
         ValueOperations<String, T> valueOperations = template.opsForValue();
         if (valueOperations.get(key) == null) {
             return valueOperations.get(key);
         }
         T data = valueOperations.get(key);
-        valueOperations.set(key, data, time);
+        valueOperations.set(key, data, time, TimeUnit.HOURS);
         return data;
     }
 
@@ -63,9 +64,9 @@ public class RedisService<T> {
         return setOp.isMember(key, t);
     }
 
-    public void putSetIfNotExists(String key,T t){
-        if(!isDataInSet(key,t)) {
-            putDataInSet(key,t);
+    public void putSetIfNotExists(String key, T t) {
+        if (!isDataInSet(key, t)) {
+            putDataInSet(key, t);
         }
     }
 
