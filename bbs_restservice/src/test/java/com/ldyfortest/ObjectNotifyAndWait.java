@@ -1,7 +1,8 @@
+package com.ldyfortest;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Created by liudeyu on 2019/7/26.

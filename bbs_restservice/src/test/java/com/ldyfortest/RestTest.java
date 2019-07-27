@@ -1,3 +1,5 @@
+package com.ldyfortest;
+
 import com.restservice.BBSRestApplication;
 import com.restservice.service.PostService;
 import com.restservice.service.RedisService;
@@ -39,7 +41,7 @@ public class RestTest {
     @Autowired
     UserService userService;
 
-    Logger logger = LoggerFactory.getLogger("RestTest");
+    Logger logger = LoggerFactory.getLogger("com.ldyfortest.RestTest");
 
     @Before
     public void beforeConfigure() {
