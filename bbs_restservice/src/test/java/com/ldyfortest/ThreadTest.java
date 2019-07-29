@@ -1,3 +1,5 @@
+package com.ldyfortest;
+
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -44,7 +46,7 @@ public class ThreadTest {
                 if (index % 10000000 == 0) {
                     System.out.println("thread current is interrupt " + Thread.currentThread().isInterrupted());
                 }
-//                SleepUtil.sleepSecond(1);
+//                com.ldyfortest.SleepUtil.sleepSecond(1);
             }
         }
     }

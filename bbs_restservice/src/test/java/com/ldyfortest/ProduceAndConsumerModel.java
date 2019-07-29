@@ -1,3 +1,5 @@
+package com.ldyfortest;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -86,7 +88,7 @@ public class ProduceAndConsumerModel {
         Thread t1 = new Thread(factory, factory.getClass().getSimpleName());
         Thread t2 = new Thread(consumer, consumer.getClass().getSimpleName());
         t1.start();
-//        SleepUtil.sleepSecond(3);
+//        com.ldyfortest.SleepUtil.sleepSecond(3);
         t2.start();
 //        System.out.println("start test");
 
