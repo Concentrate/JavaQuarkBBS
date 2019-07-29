@@ -23,7 +23,7 @@ public class RankController  extends BaseController {
     @GetMapping("/newUsers")
     public QuarkResult getNewUser(){
         return process(()->{
-
+            return QuarkResult.ok();
         });
     }
 
