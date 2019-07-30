@@ -23,7 +23,7 @@ public class CustomLockImp {
 
         @Override
         public void lock() {
-            sync.tryAcquireShared(1);
+            sync.acquireShared(1);
         }
 
         @Override
@@ -67,7 +67,7 @@ public class CustomLockImp {
             protected long tryAcquireShared(long arg) {
                 for (; ; ) {
                     long reduce = getState() - arg;
-                    if (reduce >= 0 && compareAndSetState(getState(), reduce)) {
+                    if (reduce < 0 || compareAndSetState(getState(), reduce)) {
                         return reduce;
                     }
                 }
@@ -121,10 +121,7 @@ public class CustomLockImp {
             new Thread(new ARun(twinLock), "thread:" + i).start();
         }
         
-        for (int i=0;i<count;i++){
-            SleepUtil.sleepSecond(1);
-            System.out.println();
-        }
+       SleepUtil.sleepSecond(100);
         
     }
 
