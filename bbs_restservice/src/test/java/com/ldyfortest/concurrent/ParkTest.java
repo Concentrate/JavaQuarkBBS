@@ -1,4 +1,4 @@
-package com.ldyfortest;
+package com.ldyfortest.concurrent;
 
 import java.util.concurrent.locks.LockSupport;
 
