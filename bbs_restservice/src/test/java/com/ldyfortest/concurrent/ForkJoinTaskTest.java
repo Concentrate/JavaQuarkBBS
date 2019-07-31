@@ -134,7 +134,7 @@ public class ForkJoinTaskTest {
                     leftTask.fork();
                     rightTask.fork();
                     leftTask.join();
-                    rightTask.join()
+                    rightTask.join();
                     result = randomList;
                 } else {
 //                    System.out.println("mid is zero");
