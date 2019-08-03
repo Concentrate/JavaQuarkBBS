@@ -1,6 +1,7 @@
 package com.restservice.controller;
 
 import com.restservice.service.UserService;
+import com.restservice.service.util.ServiceConstants;
 import common.baseservice.BaseController;
 import common.dto.QuarkResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,12 @@ public class RankController  extends BaseController {
     @GetMapping("/newUsers")
     public QuarkResult getNewUser(){
         return process(()->{
-            return QuarkResult.ok();
+          return QuarkResult.ok(userService.getNewUsersRecentTime(ServiceConstants.NEW_USER_RECENT_HOUR));
         });
     }
+
+
+
 
 
 }

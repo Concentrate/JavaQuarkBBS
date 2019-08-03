@@ -34,4 +34,10 @@ public class Md5CryphotImp implements ICryphotEncode {
 
         return basePass;
     }
+
+    @Override
+    public boolean isPasswordEqual(String base, String encodePass) {
+        String tmpEn= StringUtils.isEmpty(encodePass)?"":encodePass;
+        return tmpEn.equals(encrypt(base));
+    }
 }

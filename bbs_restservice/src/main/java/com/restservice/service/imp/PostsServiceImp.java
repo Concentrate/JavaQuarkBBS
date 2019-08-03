@@ -8,6 +8,7 @@ import com.restservice.service.util.ServiceConstants;
 import common.dao.LabelDao;
 import common.dao.PostDao;
 import common.dao.UserDao;
+import common.dto.PageResult;
 import common.entity.Label;
 import common.entity.Posts;
 import common.entity.User;
@@ -84,12 +85,23 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
         Specification<Posts> userPosts = Specifications.<Posts>and()
                 .eq("user", user)
                 .build();
-       return repo.findAll(userPosts,new Sort(Sort.Direction.DESC,"initTime"));
+        return repo.findAll(userPosts, new Sort(Sort.Direction.DESC, "initTime"));
     }
 
     @Override
     public Page<Posts> getPostsByLabel(Label label, int pageNo, int length) {
         basePageDectect(pageNo, length);
         return repo.findByLabel(label, new PageRequest(pageNo - 1, length));
+    }
+
+    @Override
+    public List<Posts> getPostByUserLimitNum(User user, int limitCount) {
+        Pageable pageable = new PageRequest(1, 10);
+        Specification<Posts> userPosts = Specifications.<Posts>and()
+                .eq("user", user)
+                .build();
+        Page<Posts> result = repo.findAll(userPosts, pageable);
+        return result.getContent();
+
     }
 }

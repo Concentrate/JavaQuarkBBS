@@ -14,4 +14,11 @@ public interface UserService extends IntegerKeyBaseService<User>{
     List<User> getNewUsersRecentTime(int hourTime);
 
     User register(String name,String password,String email);
+
+    User findUserByName(String name);
+    User findUserByEmail(String email);
+
+    boolean updatePassword(String token,String oldPass,String newPass);
+
+
 }

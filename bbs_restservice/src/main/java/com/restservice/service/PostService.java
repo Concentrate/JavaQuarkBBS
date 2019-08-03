@@ -18,4 +18,6 @@ public interface PostService extends IntegerKeyBaseService<Posts> {
 
     Page<Posts> getPostsByLabel(Label label,int pageNo,int length);
 
+    List<Posts> getPostByUserLimitNum(User user,int limitCount);
+
 }

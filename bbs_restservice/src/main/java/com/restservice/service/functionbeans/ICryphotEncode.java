@@ -6,4 +6,6 @@ package com.restservice.service.functionbeans;
 public interface ICryphotEncode {
 
     String encrypt(String basePass);
+
+    boolean isPasswordEqual(String base,String encodePass);
 }

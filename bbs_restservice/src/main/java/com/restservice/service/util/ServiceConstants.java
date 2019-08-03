@@ -10,4 +10,8 @@ public class ServiceConstants {
     public static final long HOUR_IN_MILLISEC = 3600 * 1000;
 
 
+    public static final int NEW_USER_RECENT_HOUR = 7 * 24;
+    public static final int NEW_POSTS_HOUR = 3 * 24;
+
+
 }

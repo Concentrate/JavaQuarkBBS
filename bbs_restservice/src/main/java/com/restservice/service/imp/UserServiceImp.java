@@ -5,14 +5,9 @@ import com.restservice.service.RedisService;
 import com.restservice.service.UserService;
 import com.restservice.service.functionbeans.ICryphotEncode;
 import com.restservice.service.util.ServiceConstants;
-import com.sun.tools.internal.ws.processor.modeler.annotation.WebServiceConstants;
 import common.dao.UserDao;
 import common.entity.User;
 import common.exceptions.ApiException;
-import net.sf.ehcache.util.TimeUtil;
-import org.assertj.core.util.DateUtil;
-import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
-import org.hibernate.jpa.criteria.predicate.BooleanExpressionPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,7 +18,6 @@ import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> implements UserService {
@@ -41,8 +35,8 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
     private int expireHour;
 
 
-    private String createTokenByName(String name) {
-        return passEncodeService.encrypt(REDIS_USER_BASE + name);
+    private String createTokenByName(String name, String email, String pass) {
+        return passEncodeService.encrypt(REDIS_USER_BASE + name + email + pass);
     }
 
     @Override
@@ -52,12 +46,13 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
 
 
     private User detectUserLogin(String password, User user) {
-        if (user == null) {
+        if (user == null || user.getEnable() == 0) {
             return null;
         }
         String tmpPa = StringUtils.isEmpty(password) ? "" : password;
         if (tmpPa.equals(passEncodeService.encrypt(password))) {
-            userRedisService.putDataInMap(createTokenByName(user.getUsername()), user, expireHour);
+            userRedisService.putDataInMap(createTokenByName(user.getUsername()
+                    , user.getEmail(), user.getPassword()), user, expireHour);
             return user;
         }
         return null;
@@ -111,6 +106,30 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
         newOne.setInitTime(new Date());
         repo.save(newOne);
         return newOne;
+    }
+
+    @Override
+    public User findUserByName(String name) {
+        return repo.findUserByUsername(name);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return repo.findUserByEmail(email);
+    }
+
+    @Override
+    public boolean updatePassword(String token, String oldPass, String newPass) {
+        User theOne = getUserByToken(token);
+        if (theOne == null) {
+            return false;
+        }
+        if (!passEncodeService.isPasswordEqual(oldPass, theOne.getPassword())) {
+            return false;
+        }
+        theOne.setPassword(passEncodeService.encrypt(newPass));
+        repo.save(theOne);
+        return true;
     }
 
 
