@@ -17,4 +17,30 @@ public class StringUtils {
             return String.valueOf(object).equals(toCompare);
         }
     }
+
+
+    public static boolean isEmpty(String t) {
+        return org.springframework.util.StringUtils.isEmpty(t);
+    }
+
+    public static int parseStringToNum(String tmp) {
+        int result = -1;
+        try {
+            result = Integer.valueOf(tmp);
+        } catch (Exception e) {
+
+        }
+        return result;
+    }
+
+
+    public static boolean parseStringInValuedCollection(String tmp, int... values) {
+        int result = parseStringToNum(tmp);
+        for (int i : values) {
+            if (result == i) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

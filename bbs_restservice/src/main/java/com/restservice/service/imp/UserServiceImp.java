@@ -70,6 +70,11 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
         return detectUserLogin(password, user);
     }
 
+    @Override
+    public void loginOut(String token) {
+        userRedisService.deleteFromMap(token);
+    }
+
 
     @Override
     public List<User> getNewUsersRecentTime(int hourTime) {
