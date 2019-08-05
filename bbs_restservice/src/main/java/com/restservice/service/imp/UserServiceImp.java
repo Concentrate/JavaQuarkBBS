@@ -4,7 +4,7 @@ import com.github.wenhao.jpa.Specifications;
 import com.restservice.service.RedisService;
 import com.restservice.service.UserService;
 import com.restservice.service.functionbeans.ICryphotEncode;
-import com.restservice.service.util.ServiceConstants;
+import com.restservice.service.util.Constants;
 import common.dao.UserDao;
 import common.entity.User;
 import common.exceptions.ApiException;
@@ -84,7 +84,7 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
                 Path<Date> init = root.get("initTime");
                 if (init != null) {
                     Date current = new Date();
-                    Date beforHour = new Date(current.getTime() - hourTime * ServiceConstants.HOUR_IN_MILLISEC);
+                    Date beforHour = new Date(current.getTime() - hourTime * Constants.HOUR_IN_MILLISEC);
                     return criteriaBuilder.between(init, beforHour, current);
                 }
                 return criteriaBuilder.disjunction();

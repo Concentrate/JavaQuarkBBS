@@ -1,19 +1,16 @@
 package com.restservice.service.imp;
 
 
-import com.alibaba.druid.sql.ast.SQLOrderingSpecification;
 import com.github.wenhao.jpa.Specifications;
 import com.restservice.service.PostService;
-import com.restservice.service.util.ServiceConstants;
+import com.restservice.service.util.Constants;
 import common.dao.LabelDao;
 import common.dao.PostDao;
 import common.dao.UserDao;
-import common.dto.PageResult;
 import common.entity.Label;
 import common.entity.Posts;
 import common.entity.User;
 import common.exceptions.ApiException;
-import common.utils.Constants;
 import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.query.parser.OrderBySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,10 +53,10 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
                     Path<Boolean> isGood = root.get("good");
                     Path<Boolean> isTop = root.get("top");
                     switch (type) {
-                        case ServiceConstants.GOOD_TYPE:
+                        case Constants.GOOD_TYPE:
                             criteriaBuilder.equal(isGood, true);
                             break;
-                        case ServiceConstants.TOP_TYPE:
+                        case Constants.TOP_TYPE:
                             criteriaBuilder.equal(isTop, true);
                             break;
                     }
@@ -76,7 +72,7 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
 
     private void basePageDectect(int pageNo, int length) {
         if (pageNo <= 0 || length <= 0) {
-            throw new ApiException(Constants.ERROR_REQUEST_PARA_REASON);
+            throw new ApiException(common.utils.Constants.ERROR_REQUEST_PARA_REASON);
         }
     }
 
@@ -103,5 +99,15 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
         Page<Posts> result = repo.findAll(userPosts, pageable);
         return result.getContent();
 
+    }
+
+    @Override
+    public List<Posts> getHotPostByLimitHour(User user, int recentHour) {
+        return repo.getUserNewPostsByHourAndLimit(user.getId(),recentHour,Constants.USER_RECENT_POSTS_LIMIT);
+    }
+
+    @Override
+    public List<Posts> getNewPostsLimitNum(int recentHour, int limit) {
+        return repo.getNewLimitPosts(recentHour,limit);
     }
 }

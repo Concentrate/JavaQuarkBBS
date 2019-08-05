@@ -20,4 +20,8 @@ public interface PostService extends IntegerKeyBaseService<Posts> {
 
     List<Posts> getPostByUserLimitNum(User user,int limitCount);
 
+    List<Posts> getHotPostByLimitHour(User user,int recentHour);
+
+    List<Posts> getNewPostsLimitNum(int recentHour, int limit);
+
 }

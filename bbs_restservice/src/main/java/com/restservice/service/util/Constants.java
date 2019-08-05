@@ -1,6 +1,6 @@
 package com.restservice.service.util;
 
-public class ServiceConstants {
+public class Constants {
 
     public static final int POST_AWARD = 5;
 
@@ -12,6 +12,10 @@ public class ServiceConstants {
 
     public static final int NEW_USER_RECENT_HOUR = 7 * 24;
     public static final int NEW_POSTS_HOUR = 3 * 24;
+
+
+    public static final int USER_RECENT_POSTS_HOUR = 5 * 24;
+    public static final int USER_RECENT_POSTS_LIMIT = 100;
 
 
 }
