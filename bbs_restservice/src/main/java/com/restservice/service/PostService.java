@@ -3,6 +3,7 @@ package com.restservice.service;
 import com.restservice.service.imp.BaseIntegerKeyServiceImp;
 import common.entity.Label;
 import common.entity.Posts;
+import common.entity.Reply;
 import common.entity.User;
 import org.springframework.data.domain.Page;
 
@@ -23,5 +24,6 @@ public interface PostService extends IntegerKeyBaseService<Posts> {
     List<Posts> getHotPostByLimitHour(User user,int recentHour);
 
     List<Posts> getNewPostsLimitNum(int recentHour, int limit);
+
 
 }

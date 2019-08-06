@@ -34,6 +34,7 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
     @Override
     @Transactional
     public void savePosts(Posts posts, User user, int labelId) {
+        posts.setUser(user);
         repo.save(posts);
         Label label = labelDao.getOne(labelId);
         if (label != null) {

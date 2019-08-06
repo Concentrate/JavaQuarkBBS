@@ -3,6 +3,8 @@ package common.baseservice;
 import common.dto.QuarkResult;
 import common.exceptions.ApiException;
 
+import java.io.IOException;
+
 /**
  * Created by liudeyu on 2019/6/30.
  */

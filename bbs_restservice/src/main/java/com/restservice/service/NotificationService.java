@@ -17,9 +17,13 @@ public interface NotificationService extends IntegerKeyBaseService<Notification>
 
     List<Notification> findNotificationNotRead(User uid);
 
+    List<Notification> findNotReadWithUid(Integer uid);
+
     List<Notification> getNotificationAll(User user);
 
     List<Notification> getNotificationIsReaded(User user);
+
+    void updateNotificationIsRead(User user);
 
 
 

@@ -13,13 +13,19 @@ class UploadResult() : Serializable {
         this.status = status
     }
 
+
     class UploadData {
         var title = ""
         var src = ""
+
+        constructor(t: String, url: String) {
+            title = t;
+            src = url;
+        }
     }
 
     var status = 0
-    var data:UploadData?=null
-    var errorMessage="" // error message
+    var data: UploadData? = null
+    var errorMessage = "" // error message
 
 }

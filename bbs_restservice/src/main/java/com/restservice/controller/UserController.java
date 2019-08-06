@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
 @Api(description = "get user info")
+@RestController
 public class UserController extends BaseController {
 
     @Autowired

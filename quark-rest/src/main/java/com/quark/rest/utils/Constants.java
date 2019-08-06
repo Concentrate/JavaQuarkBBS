@@ -16,7 +16,7 @@ public class Constants {
     static {
         UPLOAD_PATH = System.getProperty("user.home");
         if (UPLOAD_PATH.endsWith(File.separator)) {
-            UPLOAD_PATH = UPLOAD_PATH = File.separator;
+            UPLOAD_PATH = UPLOAD_PATH + File.separator;
         }
         UPLOAD_PATH = UPLOAD_PATH + RELEATIVE_UPLOAD_PATH;
 
