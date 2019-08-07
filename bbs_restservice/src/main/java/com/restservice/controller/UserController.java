@@ -133,7 +133,9 @@ public class UserController extends BaseController {
                     user.setSex(Integer.valueOf(res));
                 }
             }
-            return QuarkResult.ok();
+            userService.save(user);
+
+            return QuarkResult.ok(userService.getUserByToken(token));
         });
     }
 

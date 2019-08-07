@@ -14,6 +14,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.lang.reflect.Method;
 
@@ -42,8 +43,6 @@ public class RedisConfigure extends CachingConfigurerSupport {
     }
 
 
-
-
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
@@ -53,13 +52,11 @@ public class RedisConfigure extends CachingConfigurerSupport {
     }
 
 
-
-
-    @Bean(name = "redis_custom")
-    public RedisTemplate<String,String> redisemplate(RedisConnectionFactory factory){
-        StringRedisTemplate stringRedisTemplate=new StringRedisTemplate(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper mapper=new ObjectMapper();
+    @Bean(name = "redis_mapper_with_json")
+    public RedisTemplate<String, String> redisemplate(RedisConnectionFactory factory) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate(factory);
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(mapper);
@@ -67,5 +64,17 @@ public class RedisConfigure extends CachingConfigurerSupport {
         stringRedisTemplate.afterPropertiesSet();
         return stringRedisTemplate;
 
+    }
+
+
+    @Bean(name = "redis_mapper_with_stream")
+    public RedisTemplate<String, Object> rediObjectTemp(RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> objectRedisTemplate = new RedisTemplate<>();
+        StringRedisSerializer keySerial = new StringRedisSerializer();
+        RedisObjectSerializer valueObje = new RedisObjectSerializer();
+        objectRedisTemplate.setKeySerializer(keySerial);
+        objectRedisTemplate.setValueSerializer(valueObje);
+        objectRedisTemplate.setConnectionFactory(factory);
+        return objectRedisTemplate;
     }
 }

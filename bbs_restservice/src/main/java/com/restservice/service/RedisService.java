@@ -1,6 +1,5 @@
 package com.restservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisService<T> {
 
-    @Resource(name = "redis_custom")
+    @Resource(name = "redis_mapper_with_stream")
     private RedisTemplate template;
 
 
