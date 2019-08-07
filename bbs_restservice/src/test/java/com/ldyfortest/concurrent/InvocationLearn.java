@@ -1,6 +1,6 @@
 package com.ldyfortest.concurrent;
 
-import com.restservice.fortest.People;
+import com.ldyfortest.fortest.People;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

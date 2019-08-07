@@ -1,4 +1,4 @@
-package com.restservice.fortest;
+package com.ldyfortest.fortest;
 
 public  interface People {
    String work();

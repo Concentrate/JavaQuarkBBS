@@ -70,9 +70,9 @@ public class UserController extends BaseController {
     @PostMapping("/login")
     public QuarkResult login(String email, String password) {
         return process(() -> {
-            User user = userService.loginEmail(email, password);
-            if (user != null) {
-                return QuarkResult.ok();
+            String token = userService.loginEmail(email, password);
+            if (!StringUtils.isEmpty(token)) {
+                return QuarkResult.ok(token);
             } else {
                 return QuarkResult.error("login failed or you are banned");
             }

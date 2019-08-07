@@ -40,4 +40,6 @@ public class Md5CryphotImp implements ICryphotEncode {
         String tmpEn= StringUtils.isEmpty(encodePass)?"":encodePass;
         return tmpEn.equals(encrypt(base));
     }
+
+
 }

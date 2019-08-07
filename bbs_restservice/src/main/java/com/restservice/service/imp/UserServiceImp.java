@@ -10,6 +10,7 @@ import common.entity.User;
 import common.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@PropertySource("classpath:resource.properties")
 public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> implements UserService {
 
     @Autowired
@@ -28,11 +30,11 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
     @Resource(name = "md5_encode")
     ICryphotEncode passEncodeService;
 
-    @Value("REDIS_USER_KEY")
+    @Value("${REDIS_USER_KEY}")
     private String REDIS_USER_BASE;
 
-    @Value("REDIS_USER_TIME")
-    private int expireHour;
+    @Value("${REDIS_USER_TIME}")
+    private String expireHour;
 
 
     private String createTokenByName(String name, String email, String pass) {
@@ -41,31 +43,31 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
 
     @Override
     public User getUserByToken(String token) {
-        return userRedisService.getDataAndUpdateTime(token, expireHour);
+        return userRedisService.getDataAndUpdateTime(token, Integer.valueOf(expireHour));
     }
 
 
-    private User detectUserLogin(String password, User user) {
+    private String detectUserLogin(String password, User user) {
         if (user == null || user.getEnable() == 0) {
             return null;
         }
-        String tmpPa = StringUtils.isEmpty(password) ? "" : password;
-        if (tmpPa.equals(passEncodeService.encrypt(password))) {
-            userRedisService.putDataInMap(createTokenByName(user.getUsername()
-                    , user.getEmail(), user.getPassword()), user, expireHour);
-            return user;
+        if (passEncodeService.isPasswordEqual(password,user.getPassword())) {
+            String token = createTokenByName(user.getUsername()
+                    , user.getEmail(), user.getPassword());
+            userRedisService.putDataInMap(token, user, Integer.valueOf(expireHour));
+            return token;
         }
-        return null;
+        return "";
     }
 
     @Override
-    public User loginName(String name, String password) {
+    public String loginName(String name, String password) {
         User user = repo.findUserByUsername(name);
         return detectUserLogin(password, user);
     }
 
     @Override
-    public User loginEmail(String email, String password) {
+    public String loginEmail(String email, String password) {
         User user = repo.findUserByEmail(email);
         return detectUserLogin(password, user);
     }
