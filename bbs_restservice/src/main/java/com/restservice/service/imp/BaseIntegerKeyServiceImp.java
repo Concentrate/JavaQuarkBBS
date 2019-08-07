@@ -14,6 +14,7 @@ public class BaseIntegerKeyServiceImp<T extends JpaRepository<E, Integer>, E> im
     @Autowired
     protected T repo;
 
+
     @Override
     public void save(E e) {
         repo.save(e);

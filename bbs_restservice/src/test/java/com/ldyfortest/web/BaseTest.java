@@ -69,9 +69,12 @@ public class BaseTest {
 
 
     public String loginInWithEmail(String email, String password) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders.post("/user" + "/login")
+        String bodyString = mockMvc.perform(MockMvcRequestBuilders.post("/user" + "/login")
                 .param("email", email).param("password", password)
         ).andReturn().getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(bodyString);
+        return jsonObject.getString("data");
+
     }
 
 

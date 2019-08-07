@@ -74,7 +74,7 @@ public class UserControllerTest extends BaseTest {
           return   mockMvc.perform(MockMvcRequestBuilders.put(BASE_PREFIX+"/{1}",token).param(
                     "signature","小胖如果变成小瘦"
             ).param("sex","0")
-          .param("name","小刚")).andDo(MockMvcResultHandlers.print())
+          .param("username","小便便")).andDo(MockMvcResultHandlers.print())
                   .andReturn();
         });
     }

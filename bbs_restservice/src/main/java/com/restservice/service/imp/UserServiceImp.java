@@ -37,8 +37,33 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
     private String expireHour;
 
 
+    /** 改名后，或者改邮箱后，cache短时间内失效*/
+    @Deprecated
     private String createTokenByName(String name, String email, String pass) {
         return passEncodeService.encrypt(REDIS_USER_BASE + name + email + pass);
+    }
+
+    // 改password 后本来就会失效，正常合理逻辑
+    private String createTokenByPassId(String id,String pass){
+        return passEncodeService.encrypt(REDIS_USER_BASE+id+pass);
+    }
+
+
+    @Override
+    public void save(User user) {
+        super.save(user);
+        updateRedisUserCache(user);
+    }
+
+    public void updateRedisUserCache(User user){
+        userRedisService.putDataInMap(createTokenByPassId(user.getId()+"",
+                user.getPassword()),user,Integer.valueOf(expireHour));
+    }
+
+    @Override
+    public void saveInBatch(Iterable<User> items) {
+        super.saveInBatch(items);
+        items.forEach(this::updateRedisUserCache);
     }
 
     @Override
@@ -52,8 +77,8 @@ public class UserServiceImp extends BaseIntegerKeyServiceImp<UserDao, User> impl
             return null;
         }
         if (passEncodeService.isPasswordEqual(password,user.getPassword())) {
-            String token = createTokenByName(user.getUsername()
-                    , user.getEmail(), user.getPassword());
+            String token = createTokenByPassId(user.getId()+""
+                    , user.getPassword());
             userRedisService.putDataInMap(token, user, Integer.valueOf(expireHour));
             return token;
         }
