@@ -66,23 +66,74 @@ public class UserControllerTest extends BaseTest {
     }
 
 
-    @Test
-    @Rollback(value = false)
-    public void modifyInfo(){
-        forTestAndDoPrintJson(()->{
-            String token=loginInWithEmail(xiaoPang.getEmail(),xiaoPang.getPassword());
-          return   mockMvc.perform(MockMvcRequestBuilders.put(BASE_PREFIX+"/{1}",token).param(
-                    "signature","小胖如果变成小瘦"
-            ).param("sex","0")
-          .param("username","小便便")).andDo(MockMvcResultHandlers.print())
-                  .andReturn();
+    private void logPrintUserByToken(String token) {
+        forTestAndDoPrintJson(() -> {
+            MvcResult re = mockMvc.perform(MockMvcRequestBuilders.get(BASE_PREFIX + "/{1}", token))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+            return re;
         });
     }
 
 
+    @Test
+    @Rollback(value = false)
+    public void modifyInfo() {
+        forTestAndDoPrintJson(() -> {
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+            return mockMvc.perform(MockMvcRequestBuilders.put(BASE_PREFIX + "/{1}", token).param(
+                    "signature", "小胖如果变成小瘦"
+            ).param("sex", "0")
+                    .param("username", "小便便")).andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+        });
+    }
 
 
+    @Test
+    public void logoutTest() {
+        forTestAndDoPrintJson(() -> {
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+            mockMvc.perform(MockMvcRequestBuilders.post(BASE_PREFIX + "/logout").param("token",
+                    token)).andDo(MockMvcResultHandlers.print()).andReturn();
 
+            logPrintUserByToken(token);
+            return null;
+        });
+    }
+
+
+    @Test
+    public void testUserMessage() {
+        forTestAndDoPrintJson(() -> {
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+            return mockMvc.perform(MockMvcRequestBuilders.get(BASE_PREFIX + "/message")
+                    .param("token", token))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+        });
+    }
+
+
+    @Test
+    public void changePassword() {
+        forTestAndDoPrintJson(() -> {
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+            return mockMvc.perform(MockMvcRequestBuilders.put(BASE_PREFIX + "/password/{1}", token)
+                    .param("oldPass", xiaoPang.getPassword()).param("newPass", "okthatisfine"))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andReturn();
+        });
+    }
+
+    @Test
+    public void getUserNewPosts() {
+        forTestAndDoPrintJson(() -> {
+            User user = getUserInfoWithEmailPass(xiaoPang.getEmail(), xiaoPang.getPassword());
+            return mockMvc.perform(MockMvcRequestBuilders.get(BASE_PREFIX + "/detail/{id}", user.getId())
+            ).andDo(MockMvcResultHandlers.print()).andReturn();
+        });
+    }
 
 
 }

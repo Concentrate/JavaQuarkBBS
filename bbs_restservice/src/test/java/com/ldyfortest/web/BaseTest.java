@@ -1,6 +1,11 @@
 package com.ldyfortest.web;
 
+import com.alibaba.druid.support.json.JSONParser;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restservice.BBSRestApplication;
+import com.restservice.service.util.StringUtils;
+import common.entity.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -8,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.test.context.TestPropertySource;
@@ -60,7 +66,9 @@ public class BaseTest {
     protected void forTestAndDoPrintJson(Processor processor) {
         try {
             MvcResult result = processor.process();
-            prettyPrintJson(result.getResponse().getContentAsString());
+            if (result != null) {
+                prettyPrintJson(result.getResponse().getContentAsString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,6 +83,20 @@ public class BaseTest {
         JSONObject jsonObject = new JSONObject(bodyString);
         return jsonObject.getString("data");
 
+    }
+
+    protected User getUserInfoWithEmailPass(String email, String pass) throws Exception {
+        String token = loginInWithEmail(email, pass);
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+
+        String content = mockMvc.perform(MockMvcRequestBuilders.get("/user" + "/{1}", token))
+                .andReturn().getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(content);
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.readValue(jsonObject.getString("data"), User.class);
     }
 
 

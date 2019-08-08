@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public interface NotificationDao extends JpaRepository<Notification, Integer>, J
     List<Notification> getNotificationsByTouserAndReadIsTrueOrderByInitTimeDesc(User user);
 
 
-    @Query(value = "select count(id) from quark_notification n where n.touser = :uid AND n.is_read=0", nativeQuery = true)
-    long getNotificationCount(int uid);
+    @Query(value = "select count(id) from quark_notification n where n.touser_id = :uid AND n.is_read=0", nativeQuery = true)
+    long getNotificationCount(@Param(value = "uid") int uid);
 
 
     @Query("update Notification n set n.read=true where n.touser= ?1")
@@ -32,7 +33,7 @@ public interface NotificationDao extends JpaRepository<Notification, Integer>, J
     void updateNotificationRead(User user);
 
 
-    @Query(value = "delete from quark_notification n where n.touser=?1", nativeQuery = true)
+    @Query(value = "delete from quark_notification n where n.touser_id=?1", nativeQuery = true)
     void deleteNotiByToUserId(int uid);
 
 

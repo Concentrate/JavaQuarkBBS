@@ -48,7 +48,7 @@ public class UserController extends BaseController {
 
 
     @PutMapping("/password/{token}")
-    public QuarkResult changePasswordByToken(@PathVariable("token") String token, @RequestParam("oldpass") String oldPass, @RequestParam("newPass") String newPass) {
+    public QuarkResult changePasswordByToken(@PathVariable("token") String token, @RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass) {
         return process(() -> {
             boolean result = userService.updatePassword(token, oldPass, newPass);
             return QuarkResult.ok(result);
@@ -87,8 +87,8 @@ public class UserController extends BaseController {
         });
     }
 
-    @GetMapping("/message/{token}/")
-    public QuarkResult getUserMessageByToken(@PathVariable("token") String token) {
+    @GetMapping("/message")
+    public QuarkResult getUserMessageByToken(String token) {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {
