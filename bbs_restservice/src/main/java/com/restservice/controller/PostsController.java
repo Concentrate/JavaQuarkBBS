@@ -72,8 +72,8 @@ PostsController extends BaseController {
         });
     }
 
-    @GetMapping("/label/{labelid}/")
-    public QuarkResult getPagePostByLabel(@PathVariable("labelid") int labelId,  @RequestParam(required = false,defaultValue = "1")  int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
+    @GetMapping("/label/{labelid}")
+    public QuarkResult getPagePostByLabel(@PathVariable("labelid") Integer labelId,  @RequestParam(required = false,defaultValue = "1")  int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
         return process(() -> {
             return QuarkResult.ok(postService.getPostsByLabel(labelService.findOne(labelId), pageNo, length));
         });

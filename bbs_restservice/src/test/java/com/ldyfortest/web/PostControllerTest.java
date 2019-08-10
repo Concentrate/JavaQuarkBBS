@@ -47,26 +47,31 @@ public class PostControllerTest extends BaseTest {
             String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
             return mockMvc.perform(post(BASE_PREFIXX).param("content", "这个是小胖帖子content")
                     .param("title", "这是小胖帖子title")
-                    .param("token",token)).andDo(print())
+                    .param("token", token)).andDo(print())
                     .andReturn();
         });
     }
 
 
-
-
     @Test
-    public void testPostDetail(){
-        forTestAndDoPrintJson(()->{
+    public void testPostDetail() {
+        forTestAndDoPrintJson(() -> {
             String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
-            return mockMvc.perform(get(BASE_PREFIXX+"/detail/{1}",225)
+            return mockMvc.perform(get(BASE_PREFIXX + "/detail/{1}", 225)
             ).andReturn();
         });
     }
 
 
+    @Test
+    public void getLabelPosts() {
+        forTestAndDoPrintJson(() -> {
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+           return mockMvc.perform(get(BASE_PREFIXX+"/label/{1}",1))
+                    .andDo(print()).andReturn();
 
-
+        });
+    }
 
 
 }
