@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PostService extends IntegerKeyBaseService<Posts> {
 
-    void savePosts(Posts posts, User user,int labelId);
+    void savePosts(Posts posts, User user,Integer labelId);
 
     Page<Posts> getPostsByPage(String type,String search,int pageNo,int length);
 

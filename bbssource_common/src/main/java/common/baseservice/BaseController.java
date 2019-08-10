@@ -17,13 +17,14 @@ public class BaseController {
         } catch (ApiException ex) {
             return QuarkResult.error(ex.getMessage());
         } catch (Exception ex) {
-            StringBuilder builder = new StringBuilder();
-            Arrays.stream(ex.getStackTrace()).forEach(stackTraceElement -> {
-                builder.append(stackTraceElement.getClassName() + "-" +
-                        stackTraceElement.getMethodName() + ": " + stackTraceElement.getLineNumber())
-                        .append("\n");
-            });
-            return QuarkResult.errorSystem(builder.toString());
+            ex.printStackTrace();
+//            StringBuilder builder = new StringBuilder();
+//            Arrays.stream(ex.getStackTrace()).forEach(stackTraceElement -> {
+//                builder.append(stackTraceElement.getClassName() + "-" +
+//                        stackTraceElement.getMethodName() + ": " + stackTraceElement.getLineNumber())
+//                        .append("\n");
+//            });
+            return QuarkResult.errorSystem("system error or params wrong");
         }
     }
 

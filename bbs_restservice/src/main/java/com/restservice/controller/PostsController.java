@@ -53,7 +53,7 @@ PostsController extends BaseController {
             @ApiImplicitParam(name = "title", value = "title", dataType = "String")
     })
     @PostMapping
-    public QuarkResult addPost(Posts posts, String token, int labelId) {
+    public QuarkResult addPost(Posts posts, String token,@RequestParam(required = false,defaultValue = "-1") Integer labelId) {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {

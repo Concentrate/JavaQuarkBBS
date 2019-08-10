@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,10 +34,11 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
 
     @Override
     @Transactional
-    public void savePosts(Posts posts, User user, int labelId) {
+    public void savePosts(Posts posts, User user, Integer labelId) {
+        posts.setInitTime(new Date());
         posts.setUser(user);
         repo.save(posts);
-        Label label = labelDao.getOne(labelId);
+        Label label = labelDao.findOne(labelId);
         if (label != null) {
             label.setPostsCount(label.getPostsCount() + 1);
             labelDao.save(label);
