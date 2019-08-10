@@ -3,6 +3,7 @@ package com.restservice.service.imp;
 import com.restservice.service.ReplyService;
 import common.dao.PostDao;
 import common.dao.ReplyDao;
+import common.entity.Posts;
 import common.entity.Reply;
 import common.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ReplyServiceImp extends BaseIntegerKeyServiceImp<ReplyDao, Reply> i
     public Page<Reply> getPageReply(int postId, int pageNo, int length) {
         basePageDectect(pageNo, length);
         PageRequest pageRequest = new PageRequest(pageNo, length);
+//        Posts posts = postDao.findOne(postId);
         return repo.findByPostsOrderByInitTimeDesc(postDao.findOne(postId), pageRequest);
     }
 }

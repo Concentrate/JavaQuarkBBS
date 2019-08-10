@@ -13,7 +13,7 @@ import java.util.List;
  * Created by liudeyu on 2019/6/30.
  */
 @Repository
-@CacheConfig(cacheNames = "users")
+@CacheConfig(cacheNames = "user")
 public interface UserDao extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
     User findUserByEmail(String email);

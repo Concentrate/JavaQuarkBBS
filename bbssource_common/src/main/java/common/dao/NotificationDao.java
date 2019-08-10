@@ -2,6 +2,7 @@ package common.dao;
 
 import common.entity.Notification;
 import common.entity.User;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by liudeyu on 2019/6/30.
  */
 @Repository
+@CacheConfig(cacheNames = "notification")
 public interface NotificationDao extends JpaRepository<Notification, Integer>, JpaSpecificationExecutor {
 
     List<Notification> findNotificationsByTouserOrderByInitTimeDesc(User user);

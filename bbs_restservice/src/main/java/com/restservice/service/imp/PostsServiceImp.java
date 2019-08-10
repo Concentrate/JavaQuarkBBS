@@ -34,15 +34,16 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
 
     @Override
     @Transactional
-    public void savePosts(Posts posts, User user, Integer labelId) {
+    public Posts savePosts(Posts posts, User user, Integer labelId) {
         posts.setInitTime(new Date());
         posts.setUser(user);
-        repo.save(posts);
+        Posts tmp = repo.save(posts);
         Label label = labelDao.findOne(labelId);
         if (label != null) {
             label.setPostsCount(label.getPostsCount() + 1);
             labelDao.save(label);
         }
+        return tmp;
     }
 
     @Override
@@ -106,11 +107,11 @@ public class PostsServiceImp extends BaseIntegerKeyServiceImp<PostDao, Posts> im
 
     @Override
     public List<Posts> getHotPostByLimitHour(User user, int recentHour) {
-        return repo.getUserNewPostsByHourAndLimit(user.getId(),recentHour,Constants.USER_RECENT_POSTS_LIMIT);
+        return repo.getUserNewPostsByHourAndLimit(user.getId(), recentHour, Constants.USER_RECENT_POSTS_LIMIT);
     }
 
     @Override
     public List<Posts> getNewPostsLimitNum(int recentHour, int limit) {
-        return repo.getNewLimitPosts(recentHour,limit);
+        return repo.getNewLimitPosts(recentHour, limit);
     }
 }

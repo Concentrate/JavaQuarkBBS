@@ -40,7 +40,7 @@ public class PostControllerTest extends BaseTest {
 
 
     @Test
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Rollback(value = false)
     public void testAddPost() {
         forTestAndDoPrintJson(() -> {
@@ -51,5 +51,22 @@ public class PostControllerTest extends BaseTest {
                     .andReturn();
         });
     }
+
+
+
+
+    @Test
+    public void testPostDetail(){
+        forTestAndDoPrintJson(()->{
+            String token = loginInWithEmail(xiaoPang.getEmail(), xiaoPang.getPassword());
+            return mockMvc.perform(get(BASE_PREFIXX+"/detail/{1}",225)
+            ).andReturn();
+        });
+    }
+
+
+
+
+
 
 }

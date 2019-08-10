@@ -18,7 +18,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="postses"
+            name="posts"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="5"
@@ -30,7 +30,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="replies"
+            name="reply"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="5"
@@ -42,7 +42,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="notifications"
+            name="notification"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="30"
@@ -54,7 +54,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="collects"
+            name="collect"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="30"
@@ -65,7 +65,7 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU" />
     <cache
-            name="users"
+            name="user"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="5"
@@ -76,7 +76,7 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU" />
     <cache
-            name="adminusers"
+            name="adminuser"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="5"
@@ -88,7 +88,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="permissions"
+            name="permission"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="120"
@@ -100,7 +100,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="roles"
+            name="role"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="120"
@@ -112,7 +112,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="labels"
+            name="label"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="120"

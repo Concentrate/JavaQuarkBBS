@@ -20,7 +20,7 @@ import java.util.List;
  * Created by liudeyu on 2019/6/30.
  */
 @Repository
-@CacheConfig(cacheNames = "postses")
+@CacheConfig(cacheNames = "posts")
 public interface PostDao extends JpaRepository<Posts, Integer>, JpaSpecificationExecutor<Posts> {
     @Override
     @Cacheable

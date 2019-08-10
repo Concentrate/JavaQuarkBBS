@@ -53,27 +53,27 @@ PostsController extends BaseController {
             @ApiImplicitParam(name = "title", value = "title", dataType = "String")
     })
     @PostMapping
-    public QuarkResult addPost(Posts posts, String token,@RequestParam(required = false,defaultValue = "-1") Integer labelId) {
+    public QuarkResult addPost(Posts posts, String token, @RequestParam(required = false, defaultValue = "-1") Integer labelId) {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {
                 throw new ApiException("用户未登录");
             }
-            postService.savePosts(posts, user, labelId);
-            return QuarkResult.ok();
+            Posts tmp = postService.savePosts(posts, user, labelId);
+            return QuarkResult.ok(tmp);
         });
     }
 
 
     @GetMapping("/detail/{postid}")
-    public QuarkResult detailPosts(@PathVariable("postid") Integer postId, int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
+    public QuarkResult detailPosts(@PathVariable("postid") Integer postId, @RequestParam(required = false,defaultValue = "1") int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
         return process(() -> {
             return QuarkResult.ok(replyService.getPageReply(postId, pageNo, length));
         });
     }
 
     @GetMapping("/label/{labelid}/")
-    public QuarkResult getPagePostByLabel(@PathVariable("labelid") int labelId, int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
+    public QuarkResult getPagePostByLabel(@PathVariable("labelid") int labelId,  @RequestParam(required = false,defaultValue = "1")  int pageNo, @RequestParam(value = "length", defaultValue = "20") int length) {
         return process(() -> {
             return QuarkResult.ok(postService.getPostsByLabel(labelService.findOne(labelId), pageNo, length));
         });
