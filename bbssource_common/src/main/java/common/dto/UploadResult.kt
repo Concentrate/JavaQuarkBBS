@@ -26,6 +26,6 @@ class UploadResult() : Serializable {
 
     var status = 0
     var data: UploadData? = null
-    var errorMessage = "" // error message
+    var errorMessage = "" // errorApi message
 
 }

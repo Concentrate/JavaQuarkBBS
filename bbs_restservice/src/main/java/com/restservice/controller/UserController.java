@@ -10,8 +10,6 @@ import common.dto.QuarkResult;
 import common.entity.User;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.util.NumberUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
@@ -34,11 +32,11 @@ public class UserController extends BaseController {
         return process(() -> {
                     User user = userService.findUserByName(name);
                     if (user != null) {
-                        return QuarkResult.error("user exists");
+                        return QuarkResult.errorApi("user exists");
                     }
                     user = userService.findUserByEmail(email);
                     if (user != null) {
-                        return QuarkResult.error("user exists");
+                        return QuarkResult.errorApi("user exists");
                     }
                     userService.register(name, password, email);
                     return QuarkResult.ok();
@@ -60,7 +58,7 @@ public class UserController extends BaseController {
     public QuarkResult getUserRecentPosts(@PathVariable("userId") Integer userId) {
         return process(() -> {
             if (userService.findOne(userId) == null) {
-                return QuarkResult.error("userId not exists");
+                return QuarkResult.errorApi("userId not exists");
             }
             return QuarkResult.ok(postService.getPostByUserLimitNum(userService.findOne(userId), 10));
         });
@@ -74,7 +72,7 @@ public class UserController extends BaseController {
             if (!StringUtils.isEmpty(token)) {
                 return QuarkResult.ok(token);
             } else {
-                return QuarkResult.error("login failed or you are banned");
+                return QuarkResult.errorApi("login failed or you are banned");
             }
         });
     }
@@ -92,7 +90,7 @@ public class UserController extends BaseController {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {
-                return QuarkResult.error("invailed token");
+                return QuarkResult.errorApi("invailed token");
             }
             return QuarkResult.ok(notificationService.getNotifiCount(user.getId()));
         });
@@ -104,7 +102,7 @@ public class UserController extends BaseController {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {
-                return QuarkResult.error("invailed token");
+                return QuarkResult.errorApi("invailed token");
             }
             return QuarkResult.ok(user);
         });
@@ -117,7 +115,7 @@ public class UserController extends BaseController {
         return process(() -> {
             User user = userService.getUserByToken(token);
             if (user == null) {
-                return QuarkResult.error("invailed token");
+                return QuarkResult.errorApi("invailed token");
             }
             if (!org.springframework.util.StringUtils.isEmpty(username)) {
                 user.setUsername(username);

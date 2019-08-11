@@ -38,7 +38,7 @@ public class UploadController extends BaseController {
             return result;
 
         } catch (IOException ioex) {
-            result.setErrorMessage("system error");
+            result.setErrorMessage("system errorApi");
         }
         return result;
     }

@@ -1,16 +1,66 @@
 package common.dto;
 
-import java.net.HttpURLConnection;
+import common.exceptions.ErrorCode;
+
+import java.util.Date;
 
 public class QuarkResult {
 
+    public static final int SUCCESS_CODE = 0;
+
+
+    public static class Extra {
+
+        private String errorMsg;
+        private int pageSize;
+        private int total;
+        private long timpStamp = new Date().getTime();
+        private boolean hasMore;
+
+        public long getTimpStamp() {
+            return timpStamp;
+        }
+
+        public boolean isHasMore() {
+            return hasMore;
+        }
+
+        public String getErrorMsg() {
+            return errorMsg;
+        }
+
+        public void setErrorMsg(String errorMsg) {
+            this.errorMsg = errorMsg;
+        }
+
+        public int getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+    }
 
     private int status;
     private Object data;
-    private String errorMsg;
-    private int pageSize;
-    private int total;
+    private Extra extra = new Extra();
 
+    public Extra getExtra() {
+        return extra;
+    }
+
+    public void setExtra(Extra extra) {
+        this.extra = extra;
+    }
 
     public int getStatus() {
         return status;
@@ -28,33 +78,22 @@ public class QuarkResult {
         this.data = data;
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
     public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
-    public int getPageSize() {
-        return pageSize;
+        extra.setErrorMsg(errorMsg);
     }
 
     public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+        extra.setPageSize(pageSize);
     }
 
-    public int getTotal() {
-        return total;
-    }
 
     public void setTotal(int total) {
-        this.total = total;
+        extra.setTotal(total);
     }
 
     public QuarkResult(int status, String errorMsg) {
         this.status = status;
-        this.errorMsg = errorMsg;
+        extra.setErrorMsg(errorMsg);
     }
 
     public QuarkResult(int status, Object data) {
@@ -63,21 +102,26 @@ public class QuarkResult {
     }
 
     public static QuarkResult ok(Object tmp) {
-        QuarkResult data = new QuarkResult(HttpURLConnection.HTTP_OK, tmp);
+        QuarkResult data = new QuarkResult(SUCCESS_CODE, tmp);
         return data;
     }
 
     public static QuarkResult ok() {
-        return new QuarkResult(HttpURLConnection.HTTP_OK, null);
+        return new QuarkResult(SUCCESS_CODE, null);
     }
 
-    public static QuarkResult error(String errorMsg) {
-        return new QuarkResult(HttpURLConnection.HTTP_BAD_REQUEST, errorMsg);
+    public static QuarkResult errorApi(String errorMsg) {
+        return new QuarkResult(ErrorCode.COMMON_REQUEST_ERROR_CODE, errorMsg);
+    }
+
+    public static QuarkResult errorStausCode(int status, String errorMsg) {
+        return new QuarkResult(status, errorMsg);
     }
 
 
     public static QuarkResult errorSystem(String errorMsg) {
-        return new QuarkResult(HttpURLConnection.HTTP_INTERNAL_ERROR, errorMsg);
+        return new QuarkResult(ErrorCode.ServerStateError.INTERNAL_SERVER_ERROR
+                , errorMsg);
     }
 
 

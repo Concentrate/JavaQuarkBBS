@@ -35,14 +35,14 @@ public class ReplyController extends BaseController {
     public QuarkResult saveReply(Reply reply, String token, int postId) {
         return process(() -> {
             if (StringUtils.isEmpty(token)) {
-                return QuarkResult.error("please login first");
+                return QuarkResult.errorApi("please login first");
             }
             User user = userService.getUserByToken(token);
             if (user == null) {
-                return QuarkResult.error("token error or expire,login again");
+                return QuarkResult.errorApi("token errorApi or expire,login again");
             }
             if (postService.findOne(postId) == null) {
-                return QuarkResult.error("post not exists");
+                return QuarkResult.errorApi("post not exists");
             }
             reply.setPosts(postService.findOne(postId));
             replyService.save(reply);
