@@ -46,6 +46,7 @@ public class ReplyController extends BaseController {
             if (postService.findOne(postId) == null) {
                 return QuarkResult.errorApi("post not exists");
             }
+            reply.setUser(user);
             reply.setPosts(postService.findOne(postId));
             Reply data = replyService.save(reply);
             return QuarkResult.ok(data);

@@ -16,9 +16,14 @@ public class ReplyContTest extends BaseTest {
     @Test
     public void saveReply() {
         forTestAndDoPrintJson(() -> {
-            return mockMvc.perform(post(BASE_PRE))
+            String token = loginInWithEmail(TestLoginUserInfo.xiaoPang().getEmail(), TestLoginUserInfo.xiaoPang().getPassword());
+            return mockMvc.perform(post(BASE_PRE)
+                    .param("content", "秒啊")
+                    .param("token", token)
+                    .param("postId", 3 + ""))
                     .andDo(print()).andReturn();
         });
-
     }
+
+
 }
