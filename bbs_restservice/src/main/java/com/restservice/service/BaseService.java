@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface BaseService<T, KEY> {
 
-    void save(T t);
+    T save(T t);
 
     T findOne(KEY key);
 

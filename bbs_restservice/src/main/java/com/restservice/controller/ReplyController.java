@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 /**
  * Created by liudeyu on 2019/7/24.
  */
@@ -32,7 +34,7 @@ public class ReplyController extends BaseController {
 
 
     @PostMapping
-    public QuarkResult saveReply(Reply reply, String token, int postId) {
+    public QuarkResult saveReply(Reply reply, String token, Integer postId) {
         return process(() -> {
             if (StringUtils.isEmpty(token)) {
                 return QuarkResult.errorApi("please login first");
@@ -45,11 +47,10 @@ public class ReplyController extends BaseController {
                 return QuarkResult.errorApi("post not exists");
             }
             reply.setPosts(postService.findOne(postId));
-            replyService.save(reply);
-            return QuarkResult.ok();
+            Reply data = replyService.save(reply);
+            return QuarkResult.ok(data);
         });
     }
 
 
-    
 }

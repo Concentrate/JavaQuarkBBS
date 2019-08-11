@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Created by liudeyu on 2019/7/23.
  */
@@ -21,6 +23,12 @@ public class ReplyServiceImp extends BaseIntegerKeyServiceImp<ReplyDao, Reply> i
     @Autowired
     PostDao postDao;
 
+
+    @Override
+    public Reply save(Reply reply) {
+        reply.setInitTime(new Date());
+        return super.save(reply);
+    }
 
     private void basePageDectect(int pageNo, int length) {
         if (pageNo <= 0 || length <= 0) {
