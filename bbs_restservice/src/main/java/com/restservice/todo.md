@@ -9,4 +9,4 @@
     
 * innoe db 全文索引加上，优化搜索效果
 * cache 里面 redis 和ehcache方案，组合，现在
-rest service 里面用的是redis
+rest service 里面用的是redis(待定)

@@ -24,7 +24,7 @@ public class NotificationController extends BaseController {
 
 
     @GetMapping("/{uid}")
-    public QuarkResult getNotiList(@PathVariable(value = "uid") int uid) {
+    public QuarkResult getNotiList(@PathVariable(value = "uid") Integer uid) {
         return process(() -> {
             if (userService.findOne(uid) == null) {
                 throw new ApiException("uid not exists");
@@ -35,7 +35,7 @@ public class NotificationController extends BaseController {
 
 
     @DeleteMapping("/{uid}")
-    public QuarkResult deleteNotification(@PathVariable(value = "uid") int uid) {
+    public QuarkResult deleteNotification(@PathVariable(value = "uid") Integer uid) {
         return process(() -> {
             if (userService.findOne(uid) == null) {
                 throw new ApiException("uid not exists");

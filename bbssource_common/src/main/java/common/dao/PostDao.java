@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,13 +31,13 @@ public interface PostDao extends JpaRepository<Posts, Integer>, JpaSpecification
 
     Page<Posts> findByLabel(Label label, Pageable pageable);
 
-    @Query(value = "select p from quark_posts p where DATE_SUB(CURDATE(), INTERVAL :recent HOUR) <=DATE(p.init_time) ORDER by reply_count desc limit :num"
+    @Query(value = "select * from quark_posts p where DATE_SUB(CURDATE(), INTERVAL :recent HOUR) <=DATE(p.init_time) ORDER by p.reply_count desc limit :num"
             , nativeQuery = true)
-    List<Posts> getNewLimitPosts(int recent, int num);
+    List<Posts> getNewLimitPosts(@Param("recent") int recent, @Param("num") int num);
 
 
-    @Query(value = "select p from quark_posts p where p.user_id=:uid and date_sub(curdate(), interval :recent HOUR) <= DATE(p.init_time) ORDER by reply_count desc limit :num",
+    @Query(value = "select * from quark_posts p where p.user_id=:uid and date_sub(curdate(), interval :recent HOUR) <= DATE(p.init_time) ORDER by p.reply_count desc limit :num",
             nativeQuery = true)
-    List<Posts> getUserNewPostsByHourAndLimit(int uid, int recent, int num);
+    List<Posts> getUserNewPostsByHourAndLimit(@Param("uid") int uid, @Param("recent") int recent, @Param("num") int num);
 
 }
