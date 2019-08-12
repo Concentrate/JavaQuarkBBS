@@ -23,8 +23,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getUserByApi() throws Exception {
-       User user =userService.getUserByApi("bee1a09b-9867-4f1a-9886-c25d8b0e42b1");
-        System.out.println(user);
+
     }
 
     @Test
