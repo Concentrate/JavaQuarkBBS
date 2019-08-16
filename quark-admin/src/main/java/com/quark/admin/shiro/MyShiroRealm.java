@@ -54,6 +54,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取用户的输入的账号.
         String username = (String)token.getPrincipal();
         AdminUser user = adminUserService.findByUserName(username);
+        // TODO: 2019/8/16 没有做password 检验 
         if(user==null) throw new UnknownAccountException();
         if (0==user.getEnable()) {
             throw new LockedAccountException(); // 帐号锁定
